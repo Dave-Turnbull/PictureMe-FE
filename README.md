@@ -22,4 +22,6 @@ npm install -D typescript
 npx expo start
 
 <!-- expo clipboard for waiting room -->
+
 npx expo install expo-clipboard
+
