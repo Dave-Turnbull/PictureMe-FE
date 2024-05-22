@@ -7,21 +7,15 @@ import UserList from "./UserList";
 // need to import user class for each user
 // for now, hard-coded user objects:
 
-const userArray = [
-  { name: "Emil", id: "1" },
-  { name: "Ian", id: "2" },
-  { name: "Dave", id: "3" },
-  { name: "Jake", id: "4" },
-];
+
 const host = { name: "Paul", id: "5" };
 
-// needs "createGame" to setIsHost to true, passed from landing
-const [isHost, setIsHost] = useState(false);
 
-const WaitingRoom = ({ route, navigation }) => {
+const WaitingRoom = ({ route, navigation}) => {
   const { username } = route.params;
   const { gameId } = route.params;
-
+  const { isHost} = route.params;
+  console.log(isHost)
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(`${gameId}`);
   };
@@ -38,20 +32,15 @@ const WaitingRoom = ({ route, navigation }) => {
         {/* requires shareicon from paper */}
         <Button onPress={copyToClipboard}>copyIcon</Button>
         <Text>Host: {host.name}</Text>
+         {isHost && <Button onPress={startGame}>Start</Button>}
       </View>
         {/* requires some conditional logic for if isHost===true */}
-      <UserList userArray={userArray}/>
-    
-      {/* requires some conditional logic for if isHost===true    */}
-      <Button onPress={startGame}>Start</Button>
+      <UserList route={route}/>
+     
+      
     </>
   );
 
-
-
-  // NEEDS:
-
-  // Card with little text cards saying "*user* has joined"
 
   // Nice to have:
   // share link button

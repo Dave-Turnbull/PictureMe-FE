@@ -4,6 +4,7 @@ import { useTheme, TextInput, Button } from "react-native-paper";
 
 const Landing = ({ navigation }) => {
   const [text, setText] = useState("")
+  const [isHost, setIsHost] = useState(false);
   const theme = useTheme()
 
 const joinGame = ()=>{
@@ -11,7 +12,8 @@ const joinGame = ()=>{
 }
 
 const createGame = ()=>{
-  navigation.navigate('WaitingRoom', {username: text})
+  setIsHost(true)
+  navigation.navigate('WaitingRoom', {username: text, isHost: true})
 }
 
   return (
