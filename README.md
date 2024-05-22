@@ -2,13 +2,24 @@
 
 npm install
 npm install @react-navigation/stack
-npm install expo
+npx install expo
 
 <!-- React native paper -->
 
+npm install react-native
 npm install react-native-paper
 
 <!-- safe area context -->
 
 npm install react-native-safe-area-context
-npx pod-install
+
+<!-- Install Typescript -->
+
+npm install -D typescript
+
+<!-- expo folder -->
+
+npx expo start
+
+<!-- expo clipboard for waiting room -->
+npx expo install expo-clipboard

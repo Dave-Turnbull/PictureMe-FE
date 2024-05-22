@@ -30,7 +30,7 @@ export default function App() {
             options={{ title: "Welcome to PictureMe!" }}
           />
           <Stack.Screen name="JoinGame" component={JoinGame} />
-          <Stack.Screen name="CreateGame" component={WaitingRoom} />
+          <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
