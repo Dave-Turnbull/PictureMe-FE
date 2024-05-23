@@ -1,17 +1,32 @@
 import { StyleSheet, View } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import socket from "../test/socketEmulation";
 
 const UserList = ({ route }) => {
   const {userList} = route.params
   const [userArray, setUserArray] = useState(userList);
   const { isHost } = route.params;
+
+  useEffect(()=>{
+    const userJoinedEvent = (users) => {
+      console.log('clientside userJoinedEvent triggered', users)
+      setUserArray([...users])
+    }
+    socket.on('userJoined', userJoinedEvent)
+    socket.emit('hostGame')
+    return () => {
+      socket.off('userJoined', userJoinedEvent)
+    }
+  },[])
+
   const deleteUser = (index) => {
     setUserArray((currentArray) => {
       currentArray.splice(index, 1);
       return [...currentArray];
     });
   };
+
   return (
     <View style={styles.container}>
       {userArray.map((user, index) => {
