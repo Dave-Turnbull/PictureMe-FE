@@ -14,7 +14,7 @@ import React, { useState, useRef, useEffect } from "react";
 import socket from "../test/socketEmulation";
 
 const TakeAPicture = ({route, navigation}) => {
-  const {userList} = route.params;
+  const {usersInRoom} = route.params;
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
@@ -30,7 +30,7 @@ const TakeAPicture = ({route, navigation}) => {
     socket.emit("upload", photo, (status) => {
       console.log(status)
     })
-    navigation.navigate("GuessThePicture", {photo, userList, styles})
+    navigation.navigate("GuessThePicture", {photo, usersInRoom, styles})
   }
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));

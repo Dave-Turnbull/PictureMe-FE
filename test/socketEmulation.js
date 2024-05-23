@@ -18,12 +18,12 @@ const emmittedJoinGame = async (username, roomId, callback) => {
     console.log("joining game...")
     await timeOut(1000)
     if (callback) callback([
-        { name: "Emil", id: "1", isHost: false },
-        { name: "Ian", id: "2", isHost: false },
-        { name: "Dave", id: "3", isHost: false },
-        { name: "Jake", id: "4", isHost: false },
-        { name: "Paul", id: "5", isHost: true },
-        { name: username, id: "6", isHost: false}
+        { name: "Emil", id: "1"},
+        { name: "Ian", id: "2"},
+        { name: "Dave", id: "3"},
+        { name: "Jake", id: "4"},
+        { name: "Paul", id: "5"},
+        { name: username, id: "6"}
       ])
 }
 
@@ -102,25 +102,25 @@ const eventUsersJoining = async (username = 'theHostUser') => {
     console.log('userJoinedEvent Triggered')
 
     let replyObject = [
-        { name: username, id: "0", isHost: true },
-        { name: "Emil", id: "1", isHost: false }
+        { name: username, id: "0"},
+        { name: "Emil", id: "1"}
         ]
     triggerEvent("userJoined", replyObject)
 
     await timeOut(1000)
-    replyObject.push({ name: "Ian", id: "2", isHost: false })
+    replyObject.push({ name: "Ian", id: "2"})
     triggerEvent("userJoined", replyObject)
 
     await timeOut(1000)
-    replyObject.push({ name: "Dave", id: "3", isHost: false })    
+    replyObject.push({ name: "Dave", id: "3"})    
     triggerEvent("userJoined", replyObject)
 
     await timeOut(1000)
-    replyObject.push({ name: "Jake", id: "4", isHost: false })
+    replyObject.push({ name: "Jake", id: "4"})
     triggerEvent("userJoined", replyObject)
 
     await timeOut(1000)
-    replyObject.push({ name: "Paul", id: "5", isHost: false })
+    replyObject.push({ name: "Paul", id: "5"})
     triggerEvent("userJoined", replyObject)
 };
 

@@ -14,15 +14,11 @@ const joinGame = ()=>{
 
 const createGame = ()=>{
   setIsHost(true)
-  const userList = [
-    { name: "Emil", id: "1", isHost: false },
-    { name: "Ian", id: "2", isHost: false },
-    { name: "Dave", id: "3", isHost: false },
-    { name: "Jake", id: "4", isHost: false },
-    { name: "Paul", id: "5", isHost: true }
+  const usersInRoom = [
+    { name: "Emil", id: "1"}
   ]
   const roomId = hostGame(text)
-  navigation.navigate('WaitingRoom', {username: text, isHost: true, gameId: roomId, userList})
+  navigation.navigate('WaitingRoom', {username: text, isHost: true, gameId: roomId, usersInRoom})
 }
 
   return (

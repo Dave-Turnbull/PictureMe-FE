@@ -10,8 +10,8 @@ const JoinGame = ({ route, navigation }) => {
   const [gameId, setGameId] = useState("");
 
   const toWaitingRoom = () => {
-    const userList = joinGame(gameId, username) 
-    navigation.navigate("WaitingRoom", { username: text, gameId, userList });
+    const usersInRoom = joinGame(gameId, username) 
+    navigation.navigate("WaitingRoom", { username: text, gameId, usersInRoom });
   };
 
   return (

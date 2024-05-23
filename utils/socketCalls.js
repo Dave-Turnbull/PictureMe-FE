@@ -4,10 +4,10 @@ export const hostGame = (username) => {
 
 export const joinGame = (roomId, username) => {
     return [
-        { name: "Emil", id: "1", isHost: false },
-        { name: "Ian", id: "2", isHost: false },
-        { name: "Dave", id: "3", isHost: false },
-        { name: "Jake", id: "4", isHost: false },
-        { name: "Paul", id: "5", isHost: true }
+        { name: "Emil", id: "1"},
+        { name: "Ian", id: "2"},
+        { name: "Dave", id: "3"},
+        { name: "Jake", id: "4"},
+        { name: "Paul", id: "5"}
       ]
 }

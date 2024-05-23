@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import socket from "../test/socketEmulation";
 
 const UserList = ({ route }) => {
-  const {userList} = route.params
-  const [userArray, setUserArray] = useState(userList);
+  const {usersInRoom} = route.params
+  const [userArray, setUserArray] = useState(usersInRoom);
   const { isHost } = route.params;
 
   useEffect(()=>{

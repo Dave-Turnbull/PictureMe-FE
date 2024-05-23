@@ -3,7 +3,7 @@ import { StyleSheet, View, Image } from "react-native";
 import { Text, Button } from "react-native-paper";
 
 export const GuessThePicture = ({ route, navigation }) => {
-  const { photo, userList, styles } = route.params;
+  const { photo, usersInRoom, styles } = route.params;
   const [chosenUser, setChosenUser] = useState({});
   const [picture, setPicture] = useState<ImageData | null>();
 
@@ -14,7 +14,7 @@ export const GuessThePicture = ({ route, navigation }) => {
   return (
     <View>
       <Image style={styles.takenImage} source={{ uri: photo.uri }} />
-      {userList.map((user, index) => {
+      {usersInRoom.map((user, index) => {
         return (
           <View key={user.id}>
             <Button key={user.id} onPress={(user) => setChosenUser(user)}>
