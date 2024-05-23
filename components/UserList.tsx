@@ -3,13 +3,8 @@ import { Text, Button } from "react-native-paper";
 import { useState } from "react";
 
 const UserList = ({ route }) => {
-  const [userArray, setUserArray] = useState([
-    { name: "Emil", id: "1", isHost: false },
-    { name: "Ian", id: "2", isHost: false },
-    { name: "Dave", id: "3", isHost: false },
-    { name: "Jake", id: "4", isHost: false },
-    { name: "Paul", id: "5", isHost: true }
-  ]);
+  const {usersInRoom} = route.params
+  const [userArray, setUserArray] = useState(usersInRoom);
   const { isHost } = route.params;
   const deleteUser = (index) => {
     setUserArray((currentArray) => {

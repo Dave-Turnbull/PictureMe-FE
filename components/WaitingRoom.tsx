@@ -10,8 +10,7 @@ import UserList from "./UserList";
 const host = { name: "Paul", id: "5" };
 
 const WaitingRoom = ({ route, navigation }) => {
-  const { username } = route.params;
-  const { gameId } = route.params;
+  const { username, gameId } = route.params;
   const { isHost } = route.params;
   console.log(isHost);
   const copyToClipboard = async () => {

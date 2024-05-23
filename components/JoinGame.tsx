@@ -1,6 +1,7 @@
 import { Text, TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import { View } from "react-native";
+import { joinGame } from "../utils/socketCalls";
 
 const JoinGame = ({ route, navigation }) => {
   const { username } = route.params;
@@ -9,7 +10,8 @@ const JoinGame = ({ route, navigation }) => {
   const [gameId, setGameId] = useState("");
 
   const toWaitingRoom = () => {
-    navigation.navigate("WaitingRoom", { username: text, gameId });
+    const usersInRoom = joinGame(gameId, username) 
+    navigation.navigate("WaitingRoom", { username: text, gameId, usersInRoom });
   };
 
   return (

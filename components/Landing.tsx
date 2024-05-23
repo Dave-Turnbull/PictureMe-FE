@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme, TextInput, Button } from "react-native-paper";
+import { hostGame } from "../utils/socketCalls";
 
 const Landing = ({ navigation }) => {
   const [text, setText] = useState("")
@@ -13,7 +14,8 @@ const joinGame = ()=>{
 
 const createGame = ()=>{
   setIsHost(true)
-  navigation.navigate('WaitingRoom', {username: text, isHost: true})
+  const roomId = hostGame(text)
+  navigation.navigate('WaitingRoom', {username: text, isHost: true, gameId: roomId})
 }
 
   return (
