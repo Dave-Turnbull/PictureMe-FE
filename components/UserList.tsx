@@ -19,7 +19,7 @@ const UserList = ({ route }) => {
           <View key={user.id}>
             <Text>{user.name} has joined</Text>
             {isHost && !user.isHost && (
-              <Button
+              <Button icon="delete"
                 onPress={() => {
                   deleteUser(index);
                 }}

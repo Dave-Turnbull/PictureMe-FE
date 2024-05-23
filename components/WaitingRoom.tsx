@@ -27,9 +27,9 @@ const WaitingRoom = ({ route, navigation }) => {
         <Text>PictureMe!</Text>
         <Text>GameId: {gameId}</Text>
         {/* requires shareicon from paper */}
-        <Button onPress={copyToClipboard}>copyIcon</Button>
+        <Button icon="clipboard-text" onPress={copyToClipboard}>copy gameId</Button>
         <Text>Host: {host.name}</Text>
-        {isHost && <Button onPress={startGame}>Start</Button>}
+        {isHost && <Button icon="play" onPress={startGame}>Start</Button>}
       </View>
       <UserList route={route} />
     </>
