@@ -3,8 +3,8 @@ import { Text, Button } from "react-native-paper";
 import { useState } from "react";
 
 const UserList = ({ route }) => {
-  const {usersInRoom} = route.params
-  const [userArray, setUserArray] = useState(usersInRoom);
+  const {userList} = route.params
+  const [userArray, setUserArray] = useState(userList);
   const { isHost } = route.params;
   const deleteUser = (index) => {
     setUserArray((currentArray) => {
