@@ -2,7 +2,7 @@ import React, {useState}  from "react"
 import { StyleSheet, View } from "react-native";
 import { Text, Button } from "react-native-paper";
 
-const GuessThePicture = ({route, navigation}) =>{
+ export const GuessThePicture = ({route, navigation}) =>{
     const {photo, userList} = route.params
     const [chosenUser, setChosenUser] = useState({})
     const [picture, setPicture] = useState<ImageData | null>()

@@ -26,7 +26,7 @@ const TakeAPicture = ({route, navigation}) => {
   }
   const SubmitPhoto = () =>{
     setPhoto(photo);
-    navigation.navigate("GuessThePicture", photo)
+    navigation.navigate("GuessThePicture", {photo, userList})
   }
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));

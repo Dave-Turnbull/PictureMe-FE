@@ -18,7 +18,7 @@ const WaitingRoom = ({ route, navigation }) => {
   };
 
   const startGame = () => {
-    navigation.navigate("TakeAPicture", userList);
+    navigation.navigate("TakeAPicture", {userList});
   };
 
   return (
