@@ -8,7 +8,7 @@ import {
 import  JoinGame from "./components/JoinGame"
 import WaitingRoom from "./components/WaitingRoom";
 import TakeAPicture from "./components/TakeAPicture";
-
+import { GuessThePicture } from "./components/GuessThePicture";
 const Stack = createNativeStackNavigator();
 
 const theme = {
@@ -33,6 +33,7 @@ export default function App() {
           <Stack.Screen name="JoinGame" component={JoinGame} />
           <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
           <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
+          <Stack.Screen name="GuessThePicture" component={GuessThePicture} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

@@ -11,6 +11,7 @@ import { CameraView, useCameraPermissions, CameraType } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState, useRef, useEffect } from "react";
+import socket from "../test/socketEmulation";
 
 const TakeAPicture = ({route, navigation}) => {
   const {userList} = route.params;
@@ -26,7 +27,10 @@ const TakeAPicture = ({route, navigation}) => {
   }
   const SubmitPhoto = () =>{
     setPhoto(photo);
-    navigation.navigate("GuessThePicture", photo)
+    socket.emit("upload", photo, (status) => {
+      console.log(status)
+    })
+    navigation.navigate("GuessThePicture", {photo, userList, styles})
   }
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));

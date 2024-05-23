@@ -53,7 +53,7 @@ const socket = {
                 emitedStartGame(...args)
               break;
             default:
-              console.alert("this event hasn't been set up")
+              console.log("this event hasn't been set up")
           } 
     },
 
