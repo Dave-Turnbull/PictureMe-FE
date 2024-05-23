@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Text, Button, Card, Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
 import socket from "../test/socketEmulation";
 
@@ -28,33 +28,42 @@ const UserList = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Card style={styles.container}>
       {userArray.map((user, index) => {
         return (
-          <View key={user.id}>
+
+          <Chip key={user.id} style={styles.usercard} >
             <Text>{user.name} has joined</Text>
-            {isHost && !user.isHost && (
+            {isHost && index!==0 && (
               <Button icon="delete"
                 onPress={() => {
                   deleteUser(index);
                 }}
               >
-                Delete
+                kick
               </Button>
             )}
-          </View>
+          </Chip>
         );
       })}
-    </View>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    margin: 5,
+    padding: 5,
+  },
+
+  usercard:{
+    margin: 5,
+    padding: 5,
   },
 });
 

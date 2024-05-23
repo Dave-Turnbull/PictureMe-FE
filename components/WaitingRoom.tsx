@@ -23,7 +23,7 @@ const WaitingRoom = ({ route, navigation }) => {
 
   return (
     <>
-      <View>
+      <View style={styles.container}>
         <Text>PictureMe!</Text>
         <Text>GameId: {gameId}</Text>
         {/* requires shareicon from paper */}
@@ -40,3 +40,16 @@ const WaitingRoom = ({ route, navigation }) => {
 };
 
 export default WaitingRoom;
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 5,
+    padding: 5,
+  },
+
+
+});
