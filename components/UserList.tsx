@@ -1,22 +1,32 @@
 import { StyleSheet, View } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import socket from "../test/socketEmulation";
 
 const UserList = ({ route }) => {
-  const [userArray, setUserArray] = useState([
-    { name: "Emil", id: "1", isHost: false },
-    { name: "Ian", id: "2", isHost: false },
-    { name: "Dave", id: "3", isHost: false },
-    { name: "Jake", id: "4", isHost: false },
-    { name: "Paul", id: "5", isHost: true }
-  ]);
+  const {userList} = route.params
+  const [userArray, setUserArray] = useState(userList);
   const { isHost } = route.params;
+
+  useEffect(()=>{
+    const userJoinedEvent = (users) => {
+      console.log('clientside userJoinedEvent triggered', users)
+      setUserArray([...users])
+    }
+    socket.on('userJoined', userJoinedEvent)
+    socket.emit('hostGame')
+    return () => {
+      socket.off('userJoined', userJoinedEvent)
+    }
+  },[])
+
   const deleteUser = (index) => {
     setUserArray((currentArray) => {
       currentArray.splice(index, 1);
       return [...currentArray];
     });
   };
+
   return (
     <View style={styles.container}>
       {userArray.map((user, index) => {
@@ -24,7 +34,7 @@ const UserList = ({ route }) => {
           <View key={user.id}>
             <Text>{user.name} has joined</Text>
             {isHost && !user.isHost && (
-              <Button
+              <Button icon="delete"
                 onPress={() => {
                   deleteUser(index);
                 }}

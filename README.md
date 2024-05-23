@@ -28,3 +28,4 @@ npx expo install expo-clipboard
 <!-- Camera app -->
 
 npx expo install expo-sharing expo-media-library expo-camera
+

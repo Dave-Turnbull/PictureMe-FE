@@ -10,8 +10,7 @@ import UserList from "./UserList";
 const host = { name: "Paul", id: "5" };
 
 const WaitingRoom = ({ route, navigation }) => {
-  const { username } = route.params;
-  const { gameId } = route.params;
+  const { username, gameId, userList} = route.params;
   const { isHost } = route.params;
   console.log(isHost);
   const copyToClipboard = async () => {
@@ -19,7 +18,7 @@ const WaitingRoom = ({ route, navigation }) => {
   };
 
   const startGame = () => {
-    navigation.navigate("TakeAPicture");
+    navigation.navigate("TakeAPicture", {userList});
   };
 
   return (
@@ -28,9 +27,9 @@ const WaitingRoom = ({ route, navigation }) => {
         <Text>PictureMe!</Text>
         <Text>GameId: {gameId}</Text>
         {/* requires shareicon from paper */}
-        <Button onPress={copyToClipboard}>copyIcon</Button>
+        <Button icon="clipboard-text" onPress={copyToClipboard}>copy gameId</Button>
         <Text>Host: {host.name}</Text>
-        {isHost && <Button onPress={startGame}>Start</Button>}
+        {isHost && <Button icon="play" onPress={startGame}>Start</Button>}
       </View>
       <UserList route={route} />
     </>
