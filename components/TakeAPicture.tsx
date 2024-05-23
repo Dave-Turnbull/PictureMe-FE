@@ -12,7 +12,8 @@ import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState, useRef, useEffect } from "react";
 
-const TakeAPicture = () => {
+const TakeAPicture = ({route, navigation}) => {
+  const {userList} = route.params;
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
@@ -23,7 +24,10 @@ const TakeAPicture = () => {
     uri: string;
     width: number;
   }
-
+  const SubmitPhoto = () =>{
+    setPhoto(photo);
+    navigation.navigate("GuessThePicture", photo)
+  }
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
@@ -59,6 +63,7 @@ const TakeAPicture = () => {
           <Image style={styles.takenImage} source={{ uri: photo.uri }} />
         </View>
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <Button title="Submit" onPress={SubmitPhoto}/>
       </SafeAreaView>
     );
   }

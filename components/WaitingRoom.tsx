@@ -10,7 +10,7 @@ import UserList from "./UserList";
 const host = { name: "Paul", id: "5" };
 
 const WaitingRoom = ({ route, navigation }) => {
-  const { username, gameId } = route.params;
+  const { username, gameId, userList} = route.params;
   const { isHost } = route.params;
   console.log(isHost);
   const copyToClipboard = async () => {
@@ -18,7 +18,7 @@ const WaitingRoom = ({ route, navigation }) => {
   };
 
   const startGame = () => {
-    navigation.navigate("TakeAPicture");
+    navigation.navigate("TakeAPicture", userList);
   };
 
   return (
