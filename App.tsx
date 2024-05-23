@@ -7,6 +7,7 @@ import {
 } from "react-native-paper";
 import  JoinGame from "./components/JoinGame"
 import WaitingRoom from "./components/WaitingRoom";
+import TakeAPicture from "./components/TakeAPicture";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export default function App() {
           />
           <Stack.Screen name="JoinGame" component={JoinGame} />
           <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
+          <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

@@ -19,7 +19,7 @@ const WaitingRoom = ({ route, navigation }) => {
   };
 
   const startGame = () => {
-    navigation.navigate("SessionPage");
+    navigation.navigate("TakeAPicture");
   };
 
   return (
