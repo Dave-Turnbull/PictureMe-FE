@@ -6,7 +6,7 @@ userJoined - sends an array of all users in the room
 
 //====CLIENT EVENT FUNCTIONS BEHAVIOUR=====
 //these are triggered with socket.emit below
-const emittedHostGame = async (username, callback) => {
+const emittedHostRoom = async (username, callback) => {
     await timeOut()
     console.log("hosting game...")
     if (callback) callback('a room id')
@@ -14,7 +14,7 @@ const emittedHostGame = async (username, callback) => {
     eventUsersJoining(username)
 }
 
-const emmittedJoinGame = async (username, roomId, callback) => {
+const emmittedJoinRoom = async (username, roomId, callback) => {
     console.log("joining game...")
     await timeOut(1000)
     if (callback) callback([
@@ -43,11 +43,11 @@ const socket = {
         await timeOut()
         //Add the server side events here
         switch(eventName) {
-            case 'joinGame':
-                emmittedJoinGame(...args)
+            case 'joinRoom':
+                emmittedJoinRoom(...args)
               break;
-            case 'hostGame':
-                emittedHostGame(...args)
+            case 'hostRoom':
+                emittedHostRoom(...args)
               break;
             case 'startGame':
                 emitedStartGame(...args)

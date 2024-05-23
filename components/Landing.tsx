@@ -2,30 +2,35 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme, TextInput, Button } from "react-native-paper";
 import { hostGame } from "../utils/socketCalls";
+import socket from "../test/socketEmulation";
 
 const Landing = ({ navigation }) => {
-  const [text, setText] = useState("")
+  const [username, setUsername] = useState("")
   const [isHost, setIsHost] = useState(false);
   const theme = useTheme()
 
 const joinGame = ()=>{
-  navigation.navigate('JoinGame', {username: text})
+  navigation.navigate('JoinGame', {username: username})
 }
 
-const createGame = ()=>{
+const createGame = async ()=>{
   setIsHost(true)
   const usersInRoom = [
-    { name: "Emil", id: "1"}
+    { name: username, id: "1"}
   ]
-  const roomId = hostGame(text)
-  navigation.navigate('WaitingRoom', {username: text, isHost: true, gameId: roomId, usersInRoom})
+  const roomId = await new Promise((resolve) => {
+    socket.emit('hostRoom', username, (roomId) => {
+      resolve(roomId)
+    })
+  })
+  navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomId, usersInRoom})
 }
 
   return (
     <View>
       <Text>PictureMe!</Text>
       <TextInput
-        label="username..." value={text} onChangeText={text => setText(text)} />
+        label="username..." value={username} onChangeText={username => setUsername(username)} />
         <Button onPress={joinGame}>Join</Button>
         <Button onPress={createGame}>Create</Button>
     </View>

@@ -14,7 +14,7 @@ const UserList = ({ route }) => {
       setUserArray([...users])
     }
     socket.on('userJoined', userJoinedEvent)
-    socket.emit('hostGame')
+    socket.emit('hostRoom')
     return () => {
       socket.off('userJoined', userJoinedEvent)
     }
