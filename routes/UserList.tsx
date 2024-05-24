@@ -1,26 +1,27 @@
 import { StyleSheet, View } from "react-native";
-import { Text, Button, Card, Chip } from "react-native-paper";
+import { Text, IconButton, Card, Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
 import socket from "../test/socketEmulation";
 
 const UserList = ({ route }) => {
-  const {usersInRoom} = route.params
+  const { usersInRoom } = route.params;
   const [userArray, setUserArray] = useState(usersInRoom);
   const { isHost } = route.params;
 
-  useEffect(()=>{
+  useEffect(() => {
     const userJoinedEvent = (users) => {
-      console.log('clientside userJoinedEvent triggered', users)
-      setUserArray([...users])
-    }
-    socket.on('userJoined', userJoinedEvent)
-    socket.emit('hostRoom')
+      console.log("clientside userJoinedEvent triggered", users);
+      setUserArray([...users]);
+    };
+    socket.on("userJoined", userJoinedEvent);
+    socket.emit("hostRoom");
     return () => {
-      socket.off('userJoined', userJoinedEvent)
-    }
-  },[])
+      socket.off("userJoined", userJoinedEvent);
+    };
+  }, []);
 
   const deleteUser = (index) => {
+    if (!isHost) return;
     setUserArray((currentArray) => {
       currentArray.splice(index, 1);
       return [...currentArray];
@@ -31,18 +32,15 @@ const UserList = ({ route }) => {
     <Card style={styles.container}>
       {userArray.map((user, index) => {
         return (
-
-          <Chip key={user.id} style={styles.usercard} >
-            <Text>{user.name} has joined</Text>
-            {isHost && index!==0 && (
-              <Button icon="delete"
-                onPress={() => {
-                  deleteUser(index);
-                }}
-              >
-                kick
-              </Button>
-            )}
+          <Chip
+            key={user.id}
+            style={styles.usercard}
+            // closeIcon={isHost && index !== 0 ? "delete" : undefined}
+            onClose={() => {
+              deleteUser(index);
+            }}
+          >
+            {user.name} has joined
           </Chip>
         );
       })}
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 
-  usercard:{
+  usercard: {
     margin: 5,
     padding: 5,
   },

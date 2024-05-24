@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useTheme, TextInput, Button } from "react-native-paper";
 import { hostGame } from "../utils/socketCalls";
 import socket from "../test/socketEmulation";
+import StyledTextInput from "../components/StyledTextInput";
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -29,8 +30,7 @@ const createGame = async ()=>{
   return (
     <View>
       <Text>PictureMe!</Text>
-      <TextInput
-        label="username..." value={username} onChangeText={username => setUsername(username)} />
+      <StyledTextInput label="username..." value={username} onChangeText={username => setUsername(username)} />
         <Button onPress={joinGame}>Join</Button>
         <Button onPress={createGame}>Create</Button>
     </View>
