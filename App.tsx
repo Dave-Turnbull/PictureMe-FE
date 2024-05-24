@@ -30,7 +30,7 @@ const Stack = createNativeStackNavigator();
 // };
 
 const fontConfig = {
-  fontFamily: "Salsa-Regular"
+  fontFamily: "Salsa-Regular",
 }
 
 const theme = {
