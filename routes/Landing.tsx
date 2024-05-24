@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-import { useTheme, Modal, IconButton } from "react-native-paper";
+import { StyleSheet, View, Image } from "react-native";
+import { useTheme, Modal, IconButton, Text } from "react-native-paper";
 import socket from "../test/socketEmulation";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
 import mascot from "../assets/mascot.png"
+import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -22,8 +23,8 @@ const createGame = async ()=>{
     { name: username, id: "1"}
   ]
   const roomId = await new Promise((resolve) => {
-    socket.emit('hostRoom', username, (roomId) => {
-      resolve(roomId)
+    socket.emit('hostRoom', username, (roomObj) => {
+      resolve(roomObj.rooms.roomId)
     })
   })
   navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomId, usersInRoom})
@@ -36,19 +37,19 @@ const hideModal = () => setShowModal(false);
 
   return (
     <View style={styles.container}>
-    <Image src={mascot} style={styles.image}/>
-    <Modal visible={showModal} onDismiss={hideModal} contentContainerStyle={styles.modal}>
-      <Text>Example Modal.  Click outside this area to dismiss.</Text>
-    </Modal>
     <View style={styles.uiContainer}>
       <IconButton size={40} icon="help-circle" onPress={HowTo} />
-      <Text>PictureMe!</Text>
+      <Text variant="headlineLarge"> PictureMe!</Text>
       <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => setUsername(username)} />
         <View style={styles.buttonWrapper}>
         <StyledButton mode="contained" onPress={joinGame}>Join</StyledButton>
         <StyledButton mode="contained" onPress={createGame}>Create</StyledButton>
         </View>
+    <Image source={mascot} style={styles.image}/>
     </View>
+    <Modal visible={showModal} onDismiss={hideModal} style={styles.modalWrapper} contentContainerStyle={styles.modal}>
+      <Text>Example Modal.  Click outside this area to dismiss.</Text>
+    </Modal>
     </View>
   );
 };
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     alignContent: 'center'
   },
   uiContainer: {
-    marginTop: 50,
+    marginTop: 0,
     alignItems: 'center',
   },
   buttonWrapper: {
@@ -78,9 +79,14 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: '#fff'
   },
+  modalWrapper: {
+    zIndex: 10,
+  },
   image: {
-    width: 200,
-    height: 200
+    width: 140,
+    height: 140,
+    borderRadius:70,
+    opacity: 0.5,
   }
 });
 
