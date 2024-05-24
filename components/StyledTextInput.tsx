@@ -4,7 +4,7 @@ import { useTheme, TextInput, Button } from "react-native-paper";
 const StyledTextInput = (props)=>{
     
 return (
-    <TextInput {...props} style="styles"/>
+    <TextInput {...props} style={styles.textbox} />
 )
 }
 
@@ -12,6 +12,6 @@ export default StyledTextInput;
 
 const styles = StyleSheet.create({
     textbox:{
-
+        
     }
 })

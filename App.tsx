@@ -4,16 +4,38 @@ import { NavigationContainer } from "@react-navigation/native";
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
+  configureFonts,
+  customText
 } from "react-native-paper";
 import JoinGame from "./routes/JoinGame";
 import WaitingRoom from "./routes/WaitingRoom";
 import TakeAPicture from "./routes/TakeAPicture";
 import { GuessThePicture } from "./routes/GuessThePicture";
+import HowTo from "./routes/HowTo";
 const Stack = createNativeStackNavigator();
+
+// const fontConfig = {
+//   web: {
+//     regular: { fontFamily: "Salsa-Regular" },
+//     fontWeight: "normal",
+//   },
+//   android: {
+//     regular: { fontFamily: "Salsa-Regular" },
+//     fontWeight: "normal",
+//   },
+//   ios: {
+//     regular: { fontFamily: "Salsa-Regular" },
+//     fontWeight: "normal",
+//   },
+// };
+
+const fontConfig = {
+  fontFamily: "Salsa-Regular"
+}
 
 const theme = {
   ...DefaultTheme,
-
+  fonts: configureFonts({ config: fontConfig }),
   colors: {
     primary: "rgb(16, 109, 32)",
     onPrimary: "rgb(255, 255, 255)",
@@ -72,6 +94,7 @@ export default function App() {
           <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
           <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
           <Stack.Screen name="GuessThePicture" component={GuessThePicture} />
+          <Stack.Screen name="HowTo" component={HowTo} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

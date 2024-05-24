@@ -29,3 +29,6 @@ npx expo install expo-clipboard
 
 npx expo install expo-sharing expo-media-library expo-camera
 
+<!-- fonts -->
+
+npx react-native-asset
