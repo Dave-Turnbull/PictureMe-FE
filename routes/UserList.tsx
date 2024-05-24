@@ -31,14 +31,20 @@ const UserList = ({ route }) => {
   return (
     <Card style={styles.container}>
       {userArray.map((user, index) => {
+        let kickButtonAttributes = {}
+        if (isHost && index!==0){
+          kickButtonAttributes = {
+            closeIcon: "delete",
+            onClose: () => {
+              deleteUser(index);
+            }
+          }
+        }
         return (
           <Chip
             key={user.id}
             style={styles.usercard}
-            // closeIcon={isHost && index !== 0 ? "delete" : undefined}
-            onClose={() => {
-              deleteUser(index);
-            }}
+            {...kickButtonAttributes}
           >
             {user.name} has joined
           </Chip>
@@ -61,7 +67,8 @@ const styles = StyleSheet.create({
 
   usercard: {
     margin: 5,
-    padding: 5,
+    minWidth: 200
+    // padding: 5,
   },
 });
 
