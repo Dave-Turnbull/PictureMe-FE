@@ -9,9 +9,9 @@ const UserList = ({ route }) => {
   const { isHost } = route.params;
 
   useEffect(() => {
-    const userJoinedEvent = (users) => {
-      console.log("clientside userJoinedEvent triggered", users);
-      setUserArray([...users]);
+    const userJoinedEvent = (response) => {
+      console.log("clientside userJoinedEvent triggered", response);
+      setUserArray([...response]);
     };
     socket.on("userJoined", userJoinedEvent);
     socket.emit("hostRoom");

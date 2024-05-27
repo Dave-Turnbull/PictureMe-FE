@@ -9,7 +9,11 @@ userJoined - sends an array of all users in the room
 const emittedHostRoom = async (username, callback) => {
     await timeOut()
     console.log("hosting game...")
-    if (callback) callback('a room id')
+    if (callback) callback({message: 'room joined', rooms: {
+        roomID: 'mockRoomID',
+        host: { username: 'user1' },
+        users: [ { username: 'user1' } ]
+    }})
     await timeOut(1000)
     eventUsersJoining(username)
 }
