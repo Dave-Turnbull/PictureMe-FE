@@ -5,6 +5,7 @@ export const Socket = () => {
   const [roomObject, setRoomObject] = useState({});
   const [savedUsername, setSavedUsername] = useState("");
   const [eventHandlers, setEventHandlers] = useState({});
+  const gameRule = "something red"
 
   //=======CLIENT EMIT EVENTS===========
   //These emulate client calls to the socket server and invoke server events to respond with or emit back
@@ -210,3 +211,10 @@ export const Socket = () => {
     off,
   };
 };
+
+type SocketFunc = (...args: any[]) => void;
+export interface SocketContextType {
+  on: SocketFunc;
+  off: SocketFunc;
+  emit: SocketFunc;
+}
