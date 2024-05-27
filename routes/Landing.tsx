@@ -21,12 +21,12 @@ const Landing = ({ navigation }) => {
 
   const createGame = async ()=>{
     setIsHost(true)
-    const roomObj: { roomId: string, gameId: string, users: any[] } = await new Promise((resolve) => {
+    const roomObj: { roomID: string, gameId: string, users: any[] } = await new Promise((resolve) => {
       socket.emit('hostRoom', username, (message, roomObj) => {
         resolve(roomObj)
       })
     })
-    navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomObj.roomId, usersInRoom: roomObj.users})
+    navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomObj.roomID, usersInRoom: roomObj.users})
   }
 
 const HowTo = () => {

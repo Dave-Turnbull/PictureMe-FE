@@ -1,16 +1,37 @@
 import { useState } from "react";
+import base64Grandma from "./testImages/base64Grandma";
 
-/*
-==== SOCKET ON EVENTS ====
-userJoined - sends an array of all users in the room
-*/
 export const Socket = () => {
   const [roomObject, setRoomObject] = useState({});
   const [savedUsername, setSavedUsername] = useState("");
   const [eventHandlers, setEventHandlers] = useState({});
 
+  //=======CLIENT EMIT EVENTS===========
+  //These emulate client calls to the socket server and invoke server events to respond with or emit back
+  //The invoked functions are passed all the arguments from the socket.on call except the first one which is used in the switch statement
+  const emit = async (eventName, ...args) => {
+    await timeOut();
+    //Add the server side events here
+    switch (eventName) {
+      case "joinRoom":
+        emmittedJoinRoom(...args);
+        break;
+      case "hostRoom":
+        emittedHostRoom(...args);
+        break;
+      case "startGame":
+        emitedStartGame(...args);
+        break;
+      case "imageUpload":
+        emitedImageUpload(...args);
+        break;
+      default:
+        console.warn("this event hasn't been set up");
+    }
+  };
+
   //====CLIENT EVENT FUNCTIONS BEHAVIOUR=====
-  //these are triggered with socket.emit below
+  //these are triggered with socket.emit using the switch statement above
   const emittedHostRoom = async (username, callback) => {
     setSavedUsername(username);
     const newRoomObject = {
@@ -52,38 +73,46 @@ export const Socket = () => {
       console.warn(
         "Callback Function missing when using socket.emit on joining room!"
       );
+    await timeOut(3000);
+    setRoomObject((currentObj) => {
+      currentObj.game = {
+        players: [...currentObj.users],
+        rounds: {
+          1: { instructions: gameRule, roundImages: [] },
+        },
+      };
+      return currentObj;
+    });
+    triggerEvent("startGame", gameRule); //this isnt in the backend yet
   };
 
-  const emitedStartGame = async () => {
-    console.log("starting game...");
-    await timeOut();
-    triggerEvent("startingGame", "response data");
+  const emitedStartGame = async (roomId, callback) => {
+    console.log("starting game on...", roomId);
+    await timeOut(2000);
+    callback("game started", gameRule);
+    triggerEvent("startGame", gameRule);
   };
 
-  /* CLIENT EVENTS 
-    These will emulate client calls to the socket server and invoke server events to respond with or emit back
-    */
-
-  //emulating the client calls to server
-  const emit = async (eventName, ...args) => {
-    await timeOut();
-    //Add the server side events here
-    switch (eventName) {
-      case "joinRoom":
-        emmittedJoinRoom(...args);
-        break;
-      case "hostRoom":
-        emittedHostRoom(...args);
-        break;
-      case "startGame":
-        emitedStartGame(...args);
-        break;
-      default:
-        console.warn("this event hasn't been set up");
-    }
+  const emitedImageUpload = async (roomId, imageobject, callback) => {
+    const imageArray = [
+      { userID: "3", imageData: { img: base64Grandma, votes: 0 } },
+      {
+        userID: imageobject.userID,
+        imageData: { img: imageobject.img, votes: 0 },
+      },
+    ];
+    setRoomObject((currentObj) => {
+      currentObj.rounds["1"].roundImages = imageArray;
+      return currentObj;
+    });
+    timeOut(3000);
+    callback("file uploaded");
+    timeOut(3000);
+    triggerEvent("submissionEnd", imageArray);
   };
 
-  //emulating the server events to client
+  //=======EVENT HANDLER SET UP===========
+  //These set up event handlers when socket.on is used to listen for custom events emitted by the emulated server
   const on = (eventName, callback) => {
     // Define a handler that will call the provided callback with the event's detail arguments
     const handler = (event) => {
@@ -103,6 +132,8 @@ export const Socket = () => {
     });
   };
 
+  //==========EVENT HANDLER REMOVAL=================
+  //These will find the events set up using the code above and unmount them
   const off = (eventName, callback) => {
     // Check if there are handlers stored for the event
     if (eventHandlers[eventName]) {
@@ -122,7 +153,6 @@ export const Socket = () => {
   };
 
   //==== CUSTOM SERVER BEHAVIOR FUNCTIONS ====
-
   //sends a full list of users by adding them periodically
   const eventUsersJoining = async (newRoomObject) => {
     await timeOut(2000);
@@ -155,14 +185,16 @@ export const Socket = () => {
   };
 
   //==== UTILITY FUNCTIONS =====
+  //these are only used in this file to make it easier to emulate events
 
-  //utility function to emulate async server delays
+  //use to create delays
   const timeOut = (time = 50) => {
     return new Promise((resolve) => {
       setTimeout(resolve, time);
     });
   };
 
+  //use to trigger events sent from the server
   const triggerEvent = (eventName, response) => {
     const customEvent = new CustomEvent(eventName, {
       bubbles: true,
@@ -170,6 +202,8 @@ export const Socket = () => {
     });
     document.dispatchEvent(customEvent);
   };
+
+  //return the methods on the socket
   return {
     on,
     emit,

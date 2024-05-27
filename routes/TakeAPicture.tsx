@@ -11,7 +11,7 @@ import { CameraView, useCameraPermissions, CameraType } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState, useRef, useEffect } from "react";
-import socket from "../test/socketEmulation";
+import { useSocket } from "../contexts/SocketContext";
 
 const TakeAPicture = ({route, navigation}) => {
   const {usersInRoom} = route.params;
@@ -19,6 +19,7 @@ const TakeAPicture = ({route, navigation}) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
   const cameraRef = useRef<any>(null);
+  const socket = useSocket()
 
   interface ImageData {
     height: number;
@@ -27,7 +28,7 @@ const TakeAPicture = ({route, navigation}) => {
   }
   const SubmitPhoto = () =>{
     setPhoto(photo);
-    socket.emit("upload", photo, (status) => {
+    socket.emit("imageUpload", photo, (status) => {//this needs to be changed to match backend
       console.log(status)
     })
     navigation.navigate("GuessThePicture", {photo, usersInRoom, styles})
