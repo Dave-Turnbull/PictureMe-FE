@@ -1,17 +1,21 @@
 import { Text, TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import { View } from "react-native";
-import { joinGame } from "../utils/socketCalls";
+import { useSocket } from "../contexts/SocketContext";
 
 const JoinGame = ({ route, navigation }) => {
   const { username } = route.params;
-
   const [text, setText] = useState(username);
   const [gameId, setGameId] = useState("");
+  const socket = useSocket();
 
-  const toWaitingRoom = () => {
-    const usersInRoom = joinGame(gameId, username) 
-    navigation.navigate("WaitingRoom", { username: text, gameId, usersInRoom });
+  const toWaitingRoom = async () => {
+    const roomObject: { roomId: string, gameId: string, users: any[] } = await new Promise((resolve) => {
+      socket.emit('joinRoom', username, gameId, (message, roomObj) => {
+        resolve(roomObj)
+      })
+    })
+    navigation.navigate("WaitingRoom", { username: text, gameId, usersInRoom: roomObject.users });
   };
 
   return (

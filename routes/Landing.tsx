@@ -1,34 +1,33 @@
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { useTheme, Modal, IconButton, Text } from "react-native-paper";
-import socket from "../test/socketEmulation";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
 import mascot from "../assets/mascot.png"
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { useSocket } from "../contexts/SocketContext";
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
   const [isHost, setIsHost] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const theme = useTheme()
+  const socket = useSocket()
+  console.log(socket)
 
-const joinGame = ()=>{
-  navigation.navigate('JoinGame', {username: username})
-}
+  const joinGame = ()=>{
+    navigation.navigate('JoinGame', {username: username})
+  }
 
-const createGame = async ()=>{
-  setIsHost(true)
-  const usersInRoom = [
-    { name: username, id: "1"}
-  ]
-  const roomId = await new Promise((resolve) => {
-    socket.emit('hostRoom', username, (roomObj) => {
-      resolve(roomObj.rooms.roomId)
+  const createGame = async ()=>{
+    setIsHost(true)
+    const roomObj: { roomId: string, gameId: string, users: any[] } = await new Promise((resolve) => {
+      socket.emit('hostRoom', username, (message, roomObj) => {
+        resolve(roomObj)
+      })
     })
-  })
-  navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomId, usersInRoom})
-}
+    navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomObj.roomId, usersInRoom: roomObj.users})
+  }
 
 const HowTo = () => {
   setShowModal((val) => !val)

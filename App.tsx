@@ -12,6 +12,7 @@ import TakeAPicture from "./routes/TakeAPicture";
 import { GuessThePicture } from "./routes/GuessThePicture";
 import { useFonts } from 'expo-font';
 import HowTo from "./routes/HowTo";
+import { SocketProvider } from "./contexts/SocketContext";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -73,20 +74,22 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Landing"
-            component={Landing}
-            options={{ title: "Welcome to PictureMe!" }}
-          />
-          <Stack.Screen name="JoinGame" component={JoinGame} />
-          <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
-          <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
-          <Stack.Screen name="GuessThePicture" component={GuessThePicture} />
-          <Stack.Screen name="HowTo" component={HowTo} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SocketProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Landing"
+              component={Landing}
+              options={{ title: "Welcome to PictureMe!" }}
+            />
+            <Stack.Screen name="JoinGame" component={JoinGame} />
+            <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
+            <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
+            <Stack.Screen name="GuessThePicture" component={GuessThePicture} />
+            <Stack.Screen name="HowTo" component={HowTo} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SocketProvider>
     </PaperProvider>
   );
 }
