@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { useTheme, Modal, IconButton, Text } from "react-native-paper";
+import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
 import socket from "../test/socketEmulation";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
@@ -9,16 +9,21 @@ import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
-  const [isHost, setIsHost] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const theme = useTheme()
+
+
 
 const joinGame = ()=>{
   navigation.navigate('JoinGame', {username: username})
 }
 
 const createGame = async ()=>{
-  setIsHost(true)
+  setIsLoading(true)
+  await new Promise ((resolve) => {
+      setTimeout(resolve, 1000);
+  })
   const usersInRoom = [
     { name: username, id: "1"}
   ]
@@ -26,8 +31,9 @@ const createGame = async ()=>{
     socket.emit('hostRoom', username, (roomObj) => {
       resolve(roomObj.rooms.roomId)
     })
-  })
+  }).catch(err => setIsLoading(false))
   navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomId, usersInRoom})
+  setIsLoading(false)
 }
 
 const HowTo = () => {
@@ -42,9 +48,10 @@ const hideModal = () => setShowModal(false);
       <Text variant="headlineLarge"> PictureMe!</Text>
       <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => setUsername(username)} />
         <View style={styles.buttonWrapper}>
-        <StyledButton mode="contained" onPress={joinGame}>Join</StyledButton>
-        <StyledButton mode="contained" onPress={createGame}>Create</StyledButton>
+        <StyledButton disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
+        <StyledButton disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
         </View>
+        <ActivityIndicator animating={isLoading} />
     <Image source={mascot} style={styles.image}/>
     </View>
     <Modal visible={showModal} onDismiss={hideModal} style={styles.modalWrapper} contentContainerStyle={styles.modal}>

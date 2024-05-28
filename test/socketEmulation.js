@@ -56,6 +56,9 @@ const socket = {
             case 'startGame':
                 emitedStartGame(...args)
               break;
+            case 'startTimer':
+                emitedStartGame(...args)
+                break;
             default:
               console.log("this event hasn't been set up")
           } 
