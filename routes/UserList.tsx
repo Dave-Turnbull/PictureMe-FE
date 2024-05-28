@@ -1,22 +1,22 @@
 import { StyleSheet, View } from "react-native";
 import { Text, IconButton, Card, Chip } from "react-native-paper";
-import { useState, useEffect } from "react";
-import socket from "../test/socketEmulation";
+import { useState, useEffect, useContext } from "react";
+import { useSocket } from "../contexts/SocketContext";
 
 const UserList = ({ route }) => {
   const { usersInRoom } = route.params;
   const [userArray, setUserArray] = useState(usersInRoom);
   const { isHost } = route.params;
+  const socket = useSocket()
 
   useEffect(() => {
     const userJoinedEvent = (response) => {
       console.log("clientside userJoinedEvent triggered", response);
       setUserArray([...response]);
     };
-    socket.on("userJoined", userJoinedEvent);
-    socket.emit("hostRoom");
+    socket.on("updateUsersArray", userJoinedEvent);
     return () => {
-      socket.off("userJoined", userJoinedEvent);
+      socket.off("updateUsersArray", userJoinedEvent);
     };
   }, []);
 
@@ -42,11 +42,11 @@ const UserList = ({ route }) => {
         }
         return (
           <Chip
-            key={user.id}
+            key={user.userID}
             style={styles.usercard}
             {...kickButtonAttributes}
           >
-            {user.name} has joined
+            {user.username} has joined
           </Chip>
         );
       })}

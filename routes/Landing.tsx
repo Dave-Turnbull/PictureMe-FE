@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
-import socket from "../test/socketEmulation";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
 import mascot from "../assets/mascot.png"
-import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { useSocket } from "../contexts/SocketContext";
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
   const theme = useTheme()
-
-
+  const socket = useSocket()
+  console.log(socket)
 
 const joinGame = ()=>{
   navigation.navigate('JoinGame', {username: username})

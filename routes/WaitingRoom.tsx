@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
 import * as Clipboard from "expo-clipboard";
 import UserList from "./UserList";
+import { useSocket } from "../contexts/SocketContext";
 
 // need to import user class for each user
 // for now, hard-coded user objects:
@@ -12,12 +13,28 @@ const host = { name: "Paul", id: "5" };
 const WaitingRoom = ({ route, navigation }) => {
   const { username, gameId, usersInRoom} = route.params;
   const { isHost } = route.params;
-  console.log(isHost);
+  const socket = useSocket()
+  
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(`${gameId}`);
   };
 
-  const startGame = () => {
+  useEffect(() => {
+    const startGameEvent = (message, gamerule) => {
+      navigation.navigate("TakeAPicture", {usersInRoom});
+    };
+    socket.on("startGame", startGameEvent);
+    return () => {
+      socket.off("startGame", startGameEvent);
+    };
+  }, [])
+
+  const startGame = async () => {
+    const message = await new Promise((resolve) => {
+      socket.emit("startGame", gameId, (response)=>{
+        resolve(response)
+      })
+    })
     navigation.navigate("TakeAPicture", {usersInRoom});
   };
 
