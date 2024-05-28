@@ -5,6 +5,7 @@ export const Socket = () => {
   const [roomObject, setRoomObject] = useState({});
   const [savedUsername, setSavedUsername] = useState("");
   const [eventHandlers, setEventHandlers] = useState({});
+  const userID = 'clientID'
   const gameRule = "something red"
 
   //=======CLIENT EMIT EVENTS===========
@@ -26,8 +27,11 @@ export const Socket = () => {
       case "imageUpload":
         emitedImageUpload(...args);
         break;
+      case "getUserId":
+        emitGetUserId(...args);
+        break;
       default:
-        console.warn("this event hasn't been set up");
+        console.warn(`socket.emit('${eventName}',...) hasn't been set up in socketEmulation`);
     }
   };
 
@@ -37,8 +41,8 @@ export const Socket = () => {
     setSavedUsername(username);
     const newRoomObject = {
       roomID: "mockRoomID",
-      host: { userID: "0", username: username },
-      users: [{ userID: "0", username: username }],
+      host: { userID: userID, username: username },
+      users: [{ userID: userID, username: username }],
     };
     setRoomObject(newRoomObject);
     await timeOut();
@@ -52,10 +56,10 @@ export const Socket = () => {
     eventUsersJoining(newRoomObject);
   };
 
-  const emmittedJoinRoom = async (username, roomId, callback) => {
+  const emmittedJoinRoom = async (username, roomID, callback) => {
     setSavedUsername(username);
     const newRoomObject = {
-      roomID: roomId,
+      roomID,
       host: { username: "Emil", userID: "1" },
       users: [
         { username: "Emil", userID: "1" },
@@ -63,7 +67,7 @@ export const Socket = () => {
         { username: "Dave", userID: "3" },
         { username: "Jake", userID: "4" },
         { username: "Paul", userID: "15" },
-        { userID: "6", username: username },
+        { userID, username: username },
       ],
     };
     setRoomObject(newRoomObject);
@@ -87,14 +91,14 @@ export const Socket = () => {
     triggerEvent("startGame", gameRule); //this isnt in the backend yet
   };
 
-  const emitedStartGame = async (roomId, callback) => {
-    console.log("starting game on...", roomId);
+  const emitedStartGame = async (roomID, callback) => {
+    console.log("starting game on...", roomID);
     await timeOut(2000);
     callback("game started", gameRule);
     triggerEvent("startGame", gameRule);
   };
 
-  const emitedImageUpload = async (roomId, imageobject, callback) => {
+  const emitedImageUpload = async (roomID, imageobject, callback) => {
     const imageArray = [
       { userID: "3", imageData: { img: base64Grandma, votes: 0 } },
       {
@@ -111,6 +115,11 @@ export const Socket = () => {
     timeOut(3000);
     triggerEvent("submissionEnd", imageArray);
   };
+
+  const emitGetUserId = async (callback) => {
+    await timeOut()
+    callback(userID)
+  }
 
   //=======EVENT HANDLER SET UP===========
   //These set up event handlers when socket.on is used to listen for custom events emitted by the emulated server
@@ -208,7 +217,7 @@ export const Socket = () => {
   return {
     on,
     emit,
-    off,
+    off
   };
 };
 

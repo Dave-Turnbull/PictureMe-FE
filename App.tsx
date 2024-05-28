@@ -10,21 +10,23 @@ import JoinGame from "./routes/JoinGame";
 import WaitingRoom from "./routes/WaitingRoom";
 import TakeAPicture from "./routes/TakeAPicture";
 import { GuessThePicture } from "./routes/GuessThePicture";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 import HowTo from "./routes/HowTo";
 import { SocketProvider } from "./contexts/SocketContext";
+import ScoresPage from "./routes/ScorePage";
+import { UserProvider } from "./contexts/UserContext";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  
+
   const [loaded] = useFonts({
-    'Salsa-Regular': require('./assets/fonts/Salsa-Regular.ttf'),
+    "Salsa-Regular": require("./assets/fonts/Salsa-Regular.ttf"),
   });
 
   const fontConfig = {
     fontFamily: "Salsa-Regular",
   } as const;
-  
+
   const theme = {
     ...DefaultTheme,
     fonts: configureFonts({ config: fontConfig }),
@@ -75,20 +77,26 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <SocketProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Landing"
-              component={Landing}
-              options={{ title: "Welcome to PictureMe!" }}
-            />
-            <Stack.Screen name="JoinGame" component={JoinGame} />
-            <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
-            <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
-            <Stack.Screen name="GuessThePicture" component={GuessThePicture} />
-            <Stack.Screen name="HowTo" component={HowTo} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <UserProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Landing"
+                component={Landing}
+                options={{ title: "Welcome to PictureMe!" }}
+              />
+              <Stack.Screen name="JoinGame" component={JoinGame} />
+              <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
+              <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
+              <Stack.Screen
+                name="GuessThePicture"
+                component={GuessThePicture}
+              />
+              <Stack.Screen name="HowTo" component={HowTo} />
+              <Stack.Screen name="ScoresPage" component={ScoresPage} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </UserProvider>
       </SocketProvider>
     </PaperProvider>
   );

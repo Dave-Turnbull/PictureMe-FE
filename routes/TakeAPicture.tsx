@@ -8,13 +8,11 @@ import {
   Image,
 } from "react-native";
 import { CameraView, useCameraPermissions, CameraType } from "expo-camera";
-import { shareAsync } from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useSocket } from "../contexts/SocketContext";
 
 const TakeAPicture = ({route, navigation}) => {
-  const {usersInRoom} = route.params;
+  const {usersInRoom, roomID} = route.params;
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
@@ -31,7 +29,7 @@ const TakeAPicture = ({route, navigation}) => {
     socket.emit("imageUpload", photo, (status) => {//this needs to be changed to match backend
       console.log(status)
     })
-    navigation.navigate("GuessThePicture", {photo, usersInRoom, styles})
+    navigation.navigate("GuessThePicture", {photo, usersInRoom, styles, roomID})
   }
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));

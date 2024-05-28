@@ -5,6 +5,7 @@ import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
 import mascot from "../assets/mascot.png"
 import { useSocket } from "../contexts/SocketContext";
+import { useUserData } from "../contexts/UserContext";
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -12,6 +13,7 @@ const Landing = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
   const theme = useTheme()
   const socket = useSocket()
+  const { userData, setUserData } = useUserData()
   console.log(socket)
 
 const joinGame = ()=>{
@@ -26,12 +28,17 @@ const createGame = async ()=>{
   const usersInRoom = [
     { name: username, id: "1"}
   ]
-  const roomId = await new Promise((resolve) => {
-    socket.emit('hostRoom', username, (roomObj) => {
-      resolve(roomObj.rooms.roomId)
+  const roomObject = await new Promise((resolve) => {
+    socket.emit('hostRoom', username, (message, roomObj) => {
+      resolve(roomObj)
     })
   }).catch(err => setIsLoading(false))
-  navigation.navigate('WaitingRoom', {username, isHost: true, gameId: roomId, usersInRoom})
+  setUserData((current) => {
+    current.room = roomObject
+    current.user.username = username
+    return current
+  })
+  navigation.navigate('WaitingRoom', {username, isHost: true, usersInRoom})
   setIsLoading(false)
 }
 

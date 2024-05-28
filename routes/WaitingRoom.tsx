@@ -4,6 +4,7 @@ import { Text, TextInput, Button } from "react-native-paper";
 import * as Clipboard from "expo-clipboard";
 import UserList from "./UserList";
 import { useSocket } from "../contexts/SocketContext";
+import { useUserData } from "../contexts/UserContext";
 
 // need to import user class for each user
 // for now, hard-coded user objects:
@@ -11,17 +12,17 @@ import { useSocket } from "../contexts/SocketContext";
 const host = { name: "Paul", id: "5" };
 
 const WaitingRoom = ({ route, navigation }) => {
-  const { username, gameId, usersInRoom} = route.params;
-  const { isHost } = route.params;
+  const { username, usersInRoom, isHost} = route.params;
   const socket = useSocket()
+  const { userData } = useUserData()
   
   const copyToClipboard = async () => {
-    await Clipboard.setStringAsync(`${gameId}`);
+    await Clipboard.setStringAsync(`${userData.room.roomID}`);
   };
 
   useEffect(() => {
     const startGameEvent = (message, gamerule) => {
-      navigation.navigate("TakeAPicture", {usersInRoom});
+      navigation.navigate("TakeAPicture", {usersInRoom, roomID: userData.room.roomID});
     };
     socket.on("startGame", startGameEvent);
     return () => {
@@ -31,7 +32,7 @@ const WaitingRoom = ({ route, navigation }) => {
 
   const startGame = async () => {
     const message = await new Promise((resolve) => {
-      socket.emit("startGame", gameId, (response)=>{
+      socket.emit("startGame", userData.room.roomID, (response)=>{
         resolve(response)
       })
     })
@@ -42,9 +43,9 @@ const WaitingRoom = ({ route, navigation }) => {
     <>
       <View style={styles.container}>
         <Text>PictureMe!</Text>
-        <Text>GameId: {gameId}</Text>
+        <Text>Room ID: {userData.room.roomID}</Text>
         {/* requires shareicon from paper */}
-        <Button icon="clipboard-text" onPress={copyToClipboard}>copy gameId</Button>
+        <Button icon="clipboard-text" onPress={copyToClipboard}>copy {userData.room.roomID}</Button>
         <Text>Host: {host.name}</Text>
         {isHost && <Button icon="play" onPress={startGame}>Start</Button>}
       </View>
