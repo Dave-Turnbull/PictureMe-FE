@@ -2,20 +2,27 @@ import { Text, TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import { View } from "react-native";
 import { useSocket } from "../contexts/SocketContext";
+import { useUserData } from "../contexts/UserContext";
 
 const JoinGame = ({ route, navigation }) => {
   const { username } = route.params;
   const [text, setText] = useState(username);
-  const [gameId, setGameId] = useState("");
+  const [roomID, setRoomID] = useState("");
   const socket = useSocket();
+  const {userData, setUserData} = useUserData()
 
   const toWaitingRoom = async () => {
-    const roomObject: { roomId: string, gameId: string, users: any[] } = await new Promise((resolve) => {
-      socket.emit('joinRoom', username, gameId, (message, roomObj) => {
+    const roomObject: { roomID: string, users: any[] } = await new Promise((resolve) => {
+      socket.emit('joinRoom', username, roomID, (message, roomObj) => {
         resolve(roomObj)
       })
     })
-    navigation.navigate("WaitingRoom", { username: text, gameId, usersInRoom: roomObject.users });
+    setUserData((current) => {
+      current.room = roomObject
+      current.user.username = text
+      return current
+    })
+    navigation.navigate("WaitingRoom", { username: text, roomID, usersInRoom: roomObject.users });
   };
 
   return (
@@ -28,8 +35,8 @@ const JoinGame = ({ route, navigation }) => {
       />
       <TextInput
         label="Game ID"
-        value={gameId}
-        onChangeText={(gameId) => setGameId(gameId)}
+        value={roomID}
+        onChangeText={(roomID) => setRoomID(roomID)}
       />
       <Button onPress={toWaitingRoom}>Go!</Button>
     </View>

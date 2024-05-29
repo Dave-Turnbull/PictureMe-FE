@@ -2,7 +2,7 @@
 //     return 'gameroomid' //emit hostgame
 // }
 
-// export const joinGame = (roomId, username) => {
+// export const joinGame = (roomID, username) => {
 //     return [
 //         { name: "Emil", id: "1"},
 //         { name: "Ian", id: "2"},

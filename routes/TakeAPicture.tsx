@@ -8,10 +8,9 @@ import {
   Image,
 } from "react-native";
 import { CameraView, useCameraPermissions, CameraType } from "expo-camera";
-import { shareAsync } from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
 import React, { useState, useRef, useEffect } from "react";
 import { useSocket } from "../contexts/SocketContext";
+import { useUserData } from "../contexts/UserContext";
 
 const TakeAPicture = ({route, navigation}) => {
   const {usersInRoom} = route.params;
@@ -20,19 +19,32 @@ const TakeAPicture = ({route, navigation}) => {
   const [photo, setPhoto] = useState<ImageData | null>();
   const cameraRef = useRef<any>(null);
   const socket = useSocket()
+  const {userData} = useUserData()
 
   interface ImageData {
     height: number;
     uri: string;
     width: number;
   }
-  const SubmitPhoto = () =>{
-    setPhoto(photo);
-    socket.emit("imageUpload", photo, (status) => {//this needs to be changed to match backend
-      console.log(status)
+  const SubmitPhoto = async () =>{
+    const imageObject = { userID: userData.user.id, img: photo}
+    await new Promise((resolve) => {
+      socket.emit("imageUpload", imageObject, (message) => {//this needs to be changed to match backend
+        resolve(message)
+      })
     })
-    navigation.navigate("GuessThePicture", {photo, usersInRoom, styles})
   }
+
+  useEffect(() => {
+    const eventStartVoting = (imageObject) => {
+      navigation.navigate("GuessThePicture", {imageObject, usersInRoom})
+    }
+    socket.on('startVotes', eventStartVoting)
+    return () => {
+      socket.off('startVotes', eventStartVoting)
+    }
+  }, [])
+
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
