@@ -9,8 +9,6 @@ import { useUserData } from "../contexts/UserContext";
 // need to import user class for each user
 // for now, hard-coded user objects:
 
-const host = { name: "Paul", id: "5" };
-
 const WaitingRoom = ({ route, navigation }) => {
   const { username, usersInRoom, isHost} = route.params;
   const socket = useSocket()
@@ -22,7 +20,7 @@ const WaitingRoom = ({ route, navigation }) => {
 
   useEffect(() => {
     const startGameEvent = (message, gamerule) => {
-      navigation.navigate("TakeAPicture", {usersInRoom, roomID: userData.room.roomID});
+      navigation.navigate("TakeAPicture", {usersInRoom});
     };
     socket.on("startGame", startGameEvent);
     return () => {
@@ -46,7 +44,7 @@ const WaitingRoom = ({ route, navigation }) => {
         <Text>Room ID: {userData.room.roomID}</Text>
         {/* requires shareicon from paper */}
         <Button icon="clipboard-text" onPress={copyToClipboard}>copy {userData.room.roomID}</Button>
-        <Text>Host: {host.name}</Text>
+        <Text>Host: {userData.room.host.username}</Text>
         {isHost && <Button icon="play" onPress={startGame}>Start</Button>}
       </View>
       <UserList route={route} />

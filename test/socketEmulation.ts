@@ -30,6 +30,9 @@ export const Socket = () => {
       case "getUserId":
         emitGetUserId(...args);
         break;
+      case "userVote":
+        emitUserVote(...args);
+        break;
       default:
         console.warn(`socket.emit('${eventName}',...) hasn't been set up in socketEmulation`);
     }
@@ -119,6 +122,10 @@ export const Socket = () => {
   const emitGetUserId = async (callback) => {
     await timeOut()
     callback(userID)
+  }
+
+  const emitUserVote = async (userScore, imageTakerID) => {
+    await timeOut()
   }
 
   //=======EVENT HANDLER SET UP===========

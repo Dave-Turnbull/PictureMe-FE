@@ -26,7 +26,7 @@ const createGame = async ()=>{
       setTimeout(resolve, 1000);
   })
   const usersInRoom = [
-    { name: username, id: "1"}
+    { username: username, id: "1"}
   ]
   const roomObject = await new Promise((resolve) => {
     socket.emit('hostRoom', username, (message, roomObj) => {

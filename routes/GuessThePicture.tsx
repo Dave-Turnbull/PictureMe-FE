@@ -4,7 +4,7 @@ import { Text, Button } from "react-native-paper";
 import { useSocket } from "../contexts/SocketContext";
 
 export const GuessThePicture = ({ route, navigation}) => {
-  const { photo, usersInRoom, styles, roomID  } = route.params;
+  const { photo, usersInRoom} = route.params;
   const [chosenUser, setChosenUser] = useState({});
   const [picture, setPicture] = useState<ImageData | null>();
   const [totalScore, setTotalScore] = useState(0)
@@ -18,7 +18,7 @@ export const GuessThePicture = ({ route, navigation}) => {
 
     const endGameEvent = (response) => {
       const scores = response;
-      navigation.navigate("ScorePage", scores);
+      navigation.navigate("ScorePage", {scores, usersInRoom});
     };
     socket.on("endGame", endGameEvent);
 
@@ -33,7 +33,7 @@ export const GuessThePicture = ({ route, navigation}) => {
     //   setTotalScore(totalScore+1);
     // }
     //{roomID: 'roomID', userScore: { userID: 'senderID', score: 'score'}, imgTakerID: 'takerID'}
-    socket.emit('userVote', {roomID: `${roomID}`, userScore: { userID: 'senderID', score: 'score'}, imgTakerID: 'takerID'})
+    socket.emit('userVote', {userScore: { userID: 'senderID', score: 'score'}, imgTakerID: 'takerID'})
     //extract the userID of the guessed user from usersinroom
     //extract the userID of the image object
     //compare the userID's to check if the guess is right or wrong
@@ -65,3 +65,11 @@ export const GuessThePicture = ({ route, navigation}) => {
     </View>
   );
 };
+
+const styles = {
+  takenImage: {
+    width: 200,
+    height: 200,
+    margin: 'auto',
+  },
+}

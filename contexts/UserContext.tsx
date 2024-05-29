@@ -4,6 +4,9 @@ import { useSocket } from "./SocketContext";
 type userDataType = {
     room: {
         roomID?: string;
+        host?: {
+            username: string;
+        }
     };
     user: {
         username?: string;

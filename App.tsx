@@ -13,7 +13,7 @@ import { GuessThePicture } from "./routes/GuessThePicture";
 import { useFonts } from "expo-font";
 import HowTo from "./routes/HowTo";
 import { SocketProvider } from "./contexts/SocketContext";
-import ScoresPage from "./routes/ScorePage";
+import ScoresPage from "./routes/ScoresPage";
 import { UserProvider } from "./contexts/UserContext";
 
 export default function App() {
