@@ -13,7 +13,8 @@ const JoinGame = ({ route, navigation }) => {
 
   const toWaitingRoom = async () => {
     const roomObject: { roomID: string, users: any[] } = await new Promise((resolve) => {
-      socket.emit('joinRoom', username, roomID, (message, roomObj) => {
+      socket.emit('joinRoom', {user: {username, userID: userData.user.id}, roomID}, (message, roomObj) => {
+        console.log(roomObj)
         resolve(roomObj)
       })
     })

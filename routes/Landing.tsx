@@ -4,6 +4,7 @@ import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-nati
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
 import mascot from "../assets/mascot.png"
+import frontPagePolaroid from "../assets/front-page-polaroid.png"
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 
@@ -29,7 +30,7 @@ const createGame = async ()=>{
     { username: username, id: "1"}
   ]
   const roomObject = await new Promise((resolve) => {
-    socket.emit('hostRoom', username, (message, roomObj) => {
+    socket.emit('createRoom', {username, userID: userData.user.id}, (message, roomObj) => {
       resolve(roomObj)
     })
   }).catch(err => setIsLoading(false))
@@ -50,19 +51,20 @@ const hideModal = () => setShowModal(false);
   return (
     <View style={styles.container}>
     <View style={styles.uiContainer}>
-      <IconButton size={40} icon="help-circle" onPress={HowTo} />
-      <Text variant="headlineLarge"> PictureMe!</Text>
+    <Image source={frontPagePolaroid} style={styles.image}/>
       <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => setUsername(username)} />
         <View style={styles.buttonWrapper}>
         <StyledButton disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
         <StyledButton disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
+      <IconButton size={40} icon="help-circle" onPress={HowTo} />
         </View>
         <ActivityIndicator animating={isLoading} />
-    <Image source={mascot} style={styles.image}/>
-    </View>
     <Modal visible={showModal} onDismiss={hideModal} style={styles.modalWrapper} contentContainerStyle={styles.modal}>
-      <Text>Example Modal.  Click outside this area to dismiss.</Text>
+    <Text> How to play:</Text>
+      <Text> - Each player will take a picture when given a prompt at the beginning of each round</Text>
+      <Text> - Each picture will be displayed and each player will need to guess who's pic is whos, Best guesses only!</Text>
     </Modal>
+    </View>
     </View>
   );
 };
@@ -73,7 +75,8 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    backgroundColor: '#EAFDED'
   },
   uiContainer: {
     marginTop: 0,
@@ -82,24 +85,24 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
-    gap: 3,
+    gap: 5,
     margin: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   modal: {
     borderRadius: 5,
-    margin: 10,
-    backgroundColor: '#fff'
+    margin: 20,
+    alignItems: "center",
+    backgroundColor: '#fff',
   },
   modalWrapper: {
-    zIndex: 10,
+    zIndex: 1,
   },
   image: {
-    width: 140,
-    height: 140,
-    borderRadius:70,
-    opacity: 0.5,
+    width: 310,
+    height: 375,
+    marginBottom: 50
   }
 });
 

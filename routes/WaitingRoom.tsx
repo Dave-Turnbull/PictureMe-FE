@@ -19,20 +19,18 @@ const WaitingRoom = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    const startGameEvent = (message, gamerule) => {
-      navigation.navigate("TakeAPicture", {usersInRoom});
+    const startGameEvent = (gamerule) => {
+      navigation.navigate("TakeAPicture", {gamerule});
     };
-    socket.on("startGame", startGameEvent);
+    socket.on("startRound", startGameEvent);
     return () => {
-      socket.off("startGame", startGameEvent);
+      socket.off("startRound", startGameEvent);
     };
   }, [])
 
   const startGame = async () => {
     const message = await new Promise((resolve) => {
-      socket.emit("startGame", userData.room.roomID, (response)=>{
-        resolve(response)
-      })
+      socket.emit("startGame")
     })
     navigation.navigate("TakeAPicture", {usersInRoom});
   };

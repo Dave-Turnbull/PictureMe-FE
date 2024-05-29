@@ -2,17 +2,25 @@ import { StyleSheet, View } from "react-native";
 import { Text, IconButton, Card, Chip } from "react-native-paper";
 import { useState, useEffect, useContext } from "react";
 import { useSocket } from "../contexts/SocketContext";
+import { useUserData } from "../contexts/UserContext";
 
 const UserList = ({ route }) => {
   const { usersInRoom } = route.params;
   const [userArray, setUserArray] = useState(usersInRoom);
   const { isHost } = route.params;
   const socket = useSocket()
+  const {userData, setUserData} = useUserData()
 
   useEffect(() => {
     const userJoinedEvent = (response) => {
       console.log("clientside userJoinedEvent triggered", response);
-      setUserArray([...response]);
+      setUserArray(curr => {
+        return [...response.users]
+      });
+      setUserData((current) => {
+        current.room = response
+        return current
+      })
     };
     socket.on("updateUsersArray", userJoinedEvent);
     return () => {
@@ -30,7 +38,7 @@ const UserList = ({ route }) => {
 
   return (
     <Card style={styles.container}>
-      {userArray.map((user, index) => {
+      {userData.room.users.map((user, index) => {
         let kickButtonAttributes = {}
         if (isHost && index!==0){
           kickButtonAttributes = {
