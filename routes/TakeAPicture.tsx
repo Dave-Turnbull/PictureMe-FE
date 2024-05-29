@@ -20,6 +20,7 @@ const TakeAPicture = ({route, navigation}) => {
   const cameraRef = useRef<any>(null);
   const socket = useSocket()
   const {userData} = useUserData()
+  console.log(userData, 'the user data')
 
   interface ImageData {
     height: number;
@@ -29,7 +30,7 @@ const TakeAPicture = ({route, navigation}) => {
   const SubmitPhoto = async () =>{
     const imageObject = { userID: userData.user.id, img: photo}
     await new Promise((resolve) => {
-      socket.emit("imageUpload", imageObject, (message) => {//this needs to be changed to match backend
+      socket.emit("imageUpload", imageObject, (message) => {
         resolve(message)
       })
     })
@@ -37,6 +38,7 @@ const TakeAPicture = ({route, navigation}) => {
 
   useEffect(() => {
     const eventStartVoting = (imageObject) => {
+      console.log(imageObject, 'the image object')
       navigation.navigate("GuessThePicture", {imageObject, usersInRoom})
     }
     socket.on('startVotes', eventStartVoting)
