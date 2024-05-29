@@ -37,6 +37,7 @@ const TakeAPicture = ({route, navigation}) => {
 
   useEffect(() => {
     const eventStartVoting = (imageObject) => {
+      console.log(imageObject)
       navigation.navigate("GuessThePicture", {imageObject, usersInRoom})
     }
     socket.on('startVotes', eventStartVoting)
