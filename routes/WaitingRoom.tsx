@@ -29,10 +29,7 @@ const WaitingRoom = ({ route, navigation }) => {
   }, [])
 
   const startGame = async () => {
-    const message = await new Promise((resolve) => {
       socket.emit("startGame")
-    })
-    navigation.navigate("TakeAPicture", {usersInRoom});
   };
 
   return (

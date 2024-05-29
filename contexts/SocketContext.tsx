@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import {io} from 'socket.io-client'
 
 interface socketObject {
-    on: (a:string, ...args:any[]) => void;
+    on: (a:string, ...args:any[]) => void;//employers please look away
     off: (a:string, ...args:any[]) => void;
     emit: (a:string, ...args:any[]) => void;
 }
