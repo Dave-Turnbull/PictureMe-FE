@@ -29,7 +29,7 @@ const createGame = async ()=>{
     { username: username, id: "1"}
   ]
   const roomObject = await new Promise((resolve) => {
-    socket.emit('createRoom', username, (message, roomObj) => {
+    socket.emit('createRoom', {username, userID: userData.user.id}, (message, roomObj) => {
       resolve(roomObj)
     })
   }).catch(err => setIsLoading(false))
