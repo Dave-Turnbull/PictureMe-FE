@@ -13,14 +13,13 @@ import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 
 const TakeAPicture = ({route, navigation}) => {
-  const {usersInRoom} = route.params;
+  const {gamerule} = route.params;
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
   const cameraRef = useRef<any>(null);
   const socket = useSocket()
   const {userData} = useUserData()
-  console.log(userData, 'the user data')
 
   interface ImageData {
     height: number;
@@ -38,8 +37,7 @@ const TakeAPicture = ({route, navigation}) => {
 
   useEffect(() => {
     const eventStartVoting = (imageObject) => {
-      console.log(imageObject, 'the image object')
-      navigation.navigate("GuessThePicture", {imageObject, usersInRoom})
+      navigation.navigate("GuessThePicture", {imageObject})
     }
     socket.on('startVotes', eventStartVoting)
     return () => {
