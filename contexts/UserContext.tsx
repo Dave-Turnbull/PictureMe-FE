@@ -1,4 +1,4 @@
-import React,{ useContext, createContext, useState, useEffect } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { useSocket } from "./SocketContext";
 
 type userDataType = {
@@ -7,10 +7,12 @@ type userDataType = {
         host?: {
             username: string;
         }
+        users?: []
     };
     user: {
         username?: string;
         id: string;
+        score: number;
     }
   };
 
@@ -19,10 +21,10 @@ export interface UserContextType {
   setUserData: (args: object) => void;
 }
 
-const UserContext = createContext<UserContextType>({userData: {room: {}, user: {id: ''}}, setUserData: () => {}})
+const UserContext = createContext<UserContextType>({userData: {room: {}, user: {id: '', score: 0}}, setUserData: () => {}})
 
 export const UserProvider = ({ children }) =>{
-    const [userData, setUserData] = useState({room:{}, user:{id:undefined}})
+    const [userData, setUserData] = useState({room:{}, user:{id:undefined, score: 0}})
     const socket = useSocket()
 
     useEffect(() => {
@@ -32,12 +34,12 @@ export const UserProvider = ({ children }) =>{
                     resolve(userID)
                 })
             })
-            return userID
+            setUserData((current) => {
+                current.user.id = userID
+                return current
+            })
         }
-        setUserData((current) => {
-            current.user.id = getUserId()
-            return current
-        })
+        getUserId()
     }, [])
 
     return (
