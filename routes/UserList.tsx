@@ -12,7 +12,9 @@ const UserList = ({ route }) => {
   useEffect(() => {
     const userJoinedEvent = (response) => {
       console.log("clientside userJoinedEvent triggered", response);
-      setUserArray([...response]);
+      setUserArray(curr => {
+        return [...curr, response]
+      });
     };
     socket.on("updateUsersArray", userJoinedEvent);
     return () => {

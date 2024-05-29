@@ -1,6 +1,12 @@
 import { createContext, useContext, useEffect } from "react";
 import {io} from 'socket.io-client'
 
+// interface socketObject = {
+//     on: (...args:any[]) => void;
+//     off: () => void;
+//     emit: () => void;
+// }
+
 const SocketContext = createContext({});//server intergrated
 
 export const SocketProvider = ({ children }) => {
