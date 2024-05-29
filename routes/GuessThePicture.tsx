@@ -2,84 +2,74 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { Text, Button, Card } from "react-native-paper";
 import { useSocket } from "../contexts/SocketContext";
+import { useUserData } from "../contexts/UserContext";
 
-export const GuessThePicture = ({ route, navigation}) => {
-  const { photo, usersInRoom, username} = route.params;
-  const [chosenUser, setChosenUser] = useState({});
-  const [picture, setPicture] = useState<ImageData | null>();
-  const [totalScore, setTotalScore] = useState(0)
+export const GuessThePicture = ({ route, navigation }) => {
+  const { imageObject } = route.params;
+  const [chosenUserID, setChosenUserID] = useState("");
+  const [picture, setPicture] = useState<object>(imageObject);
+  const [totalScore, setTotalScore] = useState(0);
   const socket = useSocket();
-
-  console.log(photo)
+  const { userData } = useUserData();
 
   useEffect(() => {
-    
     const nextRoundEvent = (response) => {
-      setPicture(response[0].imageData.img); //according to socEmu,this may need changing when backend is updated
+      setPicture(response); //according to socEmu,this may need changing when backend is updated
+      setChosenUserID("");
     };
-    socket.on("updateRound", nextRoundEvent); //updateRound may need to change, too
+    socket.on("nextImage", nextRoundEvent); //updateRound may need to change, too
 
     const endGameEvent = (response) => {
       const scores = response;
-      navigation.navigate("ScorePage", {scores, usersInRoom});
+      navigation.navigate("ScoresPage", { scores });
     };
-    socket.on("endGame", endGameEvent);
+    socket.on("endRound", endGameEvent);
 
     return () => {
-      socket.off("endGame", endGameEvent);
+      socket.off("endRound", endGameEvent);
     };
   }, []);
 
   const submitGuess = () => {
+    let score = totalScore;
 
-    //{roomID: 'roomID', userScore: { userID: 'senderID', score: 'score'}, imgTakerID: 'takerID'}
-    
-    //extract the userID of the guessed user from usersinroom
-    const {userIDGuess} = usersInRoom.userID;
-    
-    //extract the userID of the image object
-    const {userIDActual} = photo.userID;
-    //compare the userID's to check if the guess is right or wrong
-    if (userIDGuess === userIDActual){
-      //add to the total score if right
-      setTotalScore(totalScore+1);
-      
-      //send the total score to the backend server
-      socket.emit('userVote', {userScore: { userID: 'senderID', score: 'score'}, imgTakerID: 'takerID'})
+    if (chosenUserID === picture.userID) {
+      console.log("correct!");
+      score++;
+    } else {
+      console.log("wrong!");
     }
-
+    setTotalScore(score);
+    socket.emit("userVote", {
+      userScore: { userID: userData.user.id, score: score },
+      imgTakerID: chosenUserID,
+    });
   };
 
-  // navigate from GuessThePicture on end of game
-
-  //Wrapper component to keep score
-  //Inner component re-renders with every new guess.
-
-  
   return (
     <View>
-      <Image style={styles.takenImage} source={{ uri: photo.uri }} />
-      {usersInRoom.map((user) => {
-        if (user.username !== username) {
+      <Image style={styles.takenImage} source={{ uri: picture.img }} />
+      {userData.room.users.map((itUser) => {
+        if (itUser.userID !== userData.user.userID) {
           return (
-            <View key={user.id}>
-              <Button onPress={() => setChosenUser(user)}>
-                {user.name}
+            <View key={itUser.id}>
+              <Button onPress={() => setChosenUserID(itUser)}>
+                {itUser.username}
               </Button>
             </View>
           );
         }
-        return null; // Return null for users matching the username
       })}
 
       <Button onPress={submitGuess}>Submit</Button>
     </View>
   );
+};
 
 const styles = StyleSheet.create({
   takenImage: {
     width: 200,
     height: 200,
-    margin: 'auto',
+    margin: "auto",
   },
-})}
+});

@@ -1,10 +1,11 @@
 import { useState } from "react";
-import base64Grandma from "./testImages/base64Grandma";
+import {base64Grandma} from './testImages/base64grandma.jsx'
 
 export const Socket = () => {
   const [roomObject, setRoomObject] = useState({});
   const [savedUsername, setSavedUsername] = useState("");
   const [eventHandlers, setEventHandlers] = useState({});
+  const [alreadyVotedOnce, setAlreadyVotedOnce] = useState(false)
   const userID = 'clientID'
   const gameRule = "something red"
 
@@ -102,21 +103,12 @@ export const Socket = () => {
   };
 
   const emitedImageUpload = async (imageobject, callback) => {
-    // const imageArray = [
-    //   {img: base64Grandma, userID: '1'},
-    //   {
-    //     userID: imageobject.userID,
-    //     img: imageobject.img,
-    //   },
-    // ];
-    // setRoomObject((currentObj) => {
-    //   currentObj.rounds["1"].roundImages = imageArray;
-    //   return currentObj;
-    // });
     timeOut(3000);
     callback("file uploaded");
     timeOut(3000);
-    triggerEvent("startVotes", imageobject);
+    console.log(imageobject, 'the image object in backend')
+    const newImageObject = {img: imageobject.img.uri, userID: imageobject.userID}
+    triggerEvent("startVotes", newImageObject);
   };
 
   const emitGetUserId = async (callback) => {
@@ -125,7 +117,12 @@ export const Socket = () => {
   }
 
   const emitUserVote = async (userScore, imageTakerID) => {
-    await timeOut()
+    await timeOut(2000)
+    if (alreadyVotedOnce) {
+      triggerEvent("endRound", [ { userID: 'userID', username: 'user1', score: 0 }, { userID: 'userID', username: 'user2', score: 2}]);
+    }
+    setAlreadyVotedOnce(true)
+    triggerEvent("nextImage", {img: base64Grandma, userID: '1'});
   }
 
   //=======EVENT HANDLER SET UP===========

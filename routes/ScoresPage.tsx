@@ -6,20 +6,19 @@ import { useUserData } from "../contexts/UserContext";
 const ScoresPage = ({route, navigation}) => {
 //[ { userID: 'userID', username: 'user1', score: 0 },
 //  { userID: 'userID', username: 'user2', score: 0 } ] 
-    const { scores, usersInRoom, userScores } = route.params;
-    const [userArray, setUserArray] = useState(usersInRoom);
+    const { scores } = route.params;
+    const [userArray, setUserArray] = useState();
     
   const backToWaitingRoom = ()=>{
-    navigation.navigate("WaitingRoom", {usersInRoom, useUserData}); //Checkwithdave
+    navigation.navigate("WaitingRoom");
   }
 
     return (
       <>
         <Card style={styles.container}>
-
-         {userArray.sort((a,b)=>{
-             b.score-a.score }
-                
+        {/* [ { userID: 'userID', username: 'user1', score: 0 }, { userID: 'userID', username: 'user2', score: 2}] */}
+         {scores.sort((a,b)=>{
+             return b.score-a.score }
              ).map((user)=>{
                    return <Chip 
                    key={user.userID}
