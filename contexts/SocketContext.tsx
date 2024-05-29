@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import {io} from 'socket.io-client'
 
-const SocketContext = createContext<????>({});//server intergrated
+const SocketContext = createContext({});//server intergrated
 
 export const SocketProvider = ({ children }) => {
     let socket = io("https://pictureme-be.onrender.com");//server intergrated

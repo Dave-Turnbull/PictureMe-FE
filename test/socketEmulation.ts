@@ -19,7 +19,7 @@ export const Socket = () => {
       case "joinRoom":
         emmittedJoinRoom(...args);
         break;
-      case "hostRoom":
+      case "createRoom":
         emittedHostRoom(...args);
         break;
       case "startGame":
