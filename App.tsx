@@ -15,21 +15,21 @@ import HowTo from "./routes/HowTo";
 import { SocketProvider } from "./contexts/SocketContext";
 import ScoresPage from "./routes/ScoresPage";
 import { UserProvider } from "./contexts/UserContext";
+import {ActivityIndicator} from "react-native-paper";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-
-  const [loaded] = useFonts({
+  const [fontLoaded] = useFonts({
     "Salsa-Regular": require("./assets/fonts/Salsa-Regular.ttf"),
   });
 
-  const fontConfig = {
+  let customFonts = {
     fontFamily: "Salsa-Regular",
-  } as const;
+  };
 
   const theme = {
     ...DefaultTheme,
-    fonts: configureFonts({ config: fontConfig }),
+    fonts: configureFonts({ config: customFonts }),
     colors: {
       primary: "rgb(16, 109, 32)",
       onPrimary: "rgb(255, 255, 255)",
@@ -73,31 +73,41 @@ export default function App() {
       backdrop: "rgba(44, 50, 42, 0.4)",
     },
   };
-
-  return (
-    <PaperProvider theme={theme}>
-      <SocketProvider>
-        <UserProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Landing"
-                component={Landing}
-                options={{ title: "Welcome to PictureMe!" }}
-              />
-              <Stack.Screen name="JoinGame" component={JoinGame} />
-              <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
-              <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
-              <Stack.Screen
-                name="GuessThePicture"
-                component={GuessThePicture}
-              />
-              <Stack.Screen name="HowTo" component={HowTo} />
-              <Stack.Screen name="ScoresPage" component={ScoresPage} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </UserProvider>
-      </SocketProvider>
-    </PaperProvider>
-  );
+  if (!fontLoaded) {
+    return <ActivityIndicator animating={true}/>;
+  } else {
+    return (
+      <PaperProvider theme={theme}>
+        <SocketProvider>
+          <UserProvider>
+            <NavigationContainer>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Landing"
+                  component={Landing}
+                  options={{
+                    title: "Welcome to PictureMe!",
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: "black",
+                    },
+                    headerTitleStyle: { color: "white", fontFamily: 'Salsa-Regular',fontWeight: "bold" },
+                  }}
+                />
+                <Stack.Screen name="JoinGame" component={JoinGame} />
+                <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
+                <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
+                <Stack.Screen
+                  name="GuessThePicture"
+                  component={GuessThePicture}
+                />
+                <Stack.Screen name="HowTo" component={HowTo} />
+                <Stack.Screen name="ScoresPage" component={ScoresPage} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </UserProvider>
+        </SocketProvider>
+      </PaperProvider>
+    );
+  }
 }
