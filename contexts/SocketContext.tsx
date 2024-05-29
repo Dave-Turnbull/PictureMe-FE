@@ -1,16 +1,16 @@
 import { createContext, useContext, useEffect } from "react";
 import {io} from 'socket.io-client'
 
-// interface socketObject = {
-//     on: (...args:any[]) => void;
-//     off: () => void;
-//     emit: () => void;
-// }
+interface socketObject {
+    on: (a:string, ...args:any[]) => void;
+    off: (a:string, ...args:any[]) => void;
+    emit: (a:string, ...args:any[]) => void;
+}
 
-const SocketContext = createContext({});//server intergrated
+const SocketContext = createContext<socketObject>({on: null, off: null, emit: null});//server intergrated
 
 export const SocketProvider = ({ children }) => {
-    let socket = io("https://pictureme-be.onrender.com");//server intergrated
+    let socket:socketObject = io("https://pictureme-be.onrender.com");//server intergrated
     useEffect(() => {
         socket.on('connect', (response) => {
             console.log(response, '<<<<<<<<the server response')
