@@ -12,6 +12,7 @@ export default StyledTextInput;
 
 const styles = StyleSheet.create({
     textbox:{
-        
+        margin: 2,
+        width:'60%'
     }
 })
