@@ -1,25 +1,33 @@
 import React, {useState} from "react";
 import { StyleSheet, View } from "react-native";
-import { Text, IconButton, Card, Chip } from "react-native-paper";
+import { Text, Button, Card, Chip } from "react-native-paper";
+import { useUserData } from "../contexts/UserContext";
 
-const ScoresPage = ({route}) => {
-//[ { userID: 'userID', username: 'user1', score: 0 }, { userID: 'userID', username: 'user2', score: 0 } ] 
-    const { scores, usersInRoom, userScores } = route.params;
-    const [userArray, setUserArray] = useState(usersInRoom);
+const ScoresPage = ({route, navigation}) => {
+//[ { userID: 'userID', username: 'user1', score: 0 },
+//  { userID: 'userID', username: 'user2', score: 0 } ] 
+    const { scores } = route.params;
+    const [userArray, setUserArray] = useState();
     
+  const backToWaitingRoom = ()=>{
+    navigation.navigate("WaitingRoom");
+  }
+
     return (
+      <>
         <Card style={styles.container}>
-
-        {/* {userArray.sort((a,b)=>{
-             a.score-b.score }
-                
-             ).map((e)=>{
-                   return e})
-        }  */}
-        something
-        {/* needs to compare scores */}
+        {/* [ { userID: 'userID', username: 'user1', score: 0 }, { userID: 'userID', username: 'user2', score: 2}] */}
+         {scores.sort((a,b)=>{
+             return b.score-a.score }
+             ).map((user)=>{
+                   return <Chip 
+                   key={user.userID}
+                   >{user.username} Score: {user.score}
+                   </Chip>})
+        } 
         </Card>
-
+        <Button onPress={backToWaitingRoom}>Play Again</Button>
+      </>
     )
 }
 

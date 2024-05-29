@@ -18,22 +18,23 @@ const TakeAPicture = ({route, navigation}) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
   const cameraRef = useRef<any>(null);
-  const socket = useSocket()
-  const {userData} = useUserData()
+  const socket = useSocket();
+  const { userData } = useUserData();
+  console.log(userData, "the user data");
 
   interface ImageData {
     height: number;
     uri: string;
     width: number;
   }
-  const SubmitPhoto = async () =>{
-    const imageObject = { userID: userData.user.id, img: photo}
+  const SubmitPhoto = async () => {
+    const imageObject = { userID: userData.user.id, img: photo };
     await new Promise((resolve) => {
       socket.emit("imageUpload", imageObject, (message) => {
-        resolve(message)
-      })
-    })
-  }
+        resolve(message);
+      });
+    });
+  };
 
   useEffect(() => {
     const eventStartVoting = (imageObject) => {
@@ -41,9 +42,9 @@ const TakeAPicture = ({route, navigation}) => {
     }
     socket.on('startVotes', eventStartVoting)
     return () => {
-      socket.off('startVotes', eventStartVoting)
-    }
-  }, [])
+      socket.off("startVotes", eventStartVoting);
+    };
+  }, []);
 
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
@@ -80,7 +81,7 @@ const TakeAPicture = ({route, navigation}) => {
           <Image style={styles.takenImage} source={{ uri: photo.uri }} />
         </View>
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
-        <Button title="Submit" onPress={SubmitPhoto}/>
+        <Button title="Submit" onPress={SubmitPhoto} />
       </SafeAreaView>
     );
   }
@@ -113,8 +114,8 @@ const TakeAPicture = ({route, navigation}) => {
       </CameraView>
     </View>
   );
-}
-export default TakeAPicture
+};
+export default TakeAPicture;
 
 const styles = StyleSheet.create({
   container: {
@@ -143,6 +144,6 @@ const styles = StyleSheet.create({
   takenImage: {
     width: 200,
     height: 200,
-    margin: 'auto',
+    margin: "auto",
   },
 });
