@@ -10,13 +10,13 @@ const ScoresPage = ({route}) => {
     return (
         <Card style={styles.container}>
 
-        {userArray.sort(((a,b)=>{
-             return a.score-b.score }) => {
+        {/* {userArray.sort((a,b)=>{
+             a.score-b.score }
                 
-             }).map((e)=>{
-                   return e         });
-             } 
-        
+             ).map((e)=>{
+                   return e})
+        }  */}
+        something
         {/* needs to compare scores */}
         </Card>
 

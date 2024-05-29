@@ -1,5 +1,5 @@
 import { useState } from "react";
-//import base64Grandma from "./testImages/base64Grandma";
+import base64Grandma from "./testImages/base64Grandma";
 
 export const Socket = () => {
   const [roomObject, setRoomObject] = useState({});
@@ -101,22 +101,22 @@ export const Socket = () => {
     triggerEvent("startGame", gameRule);
   };
 
-  const emitedImageUpload = async (roomID, imageobject, callback) => {
-    const imageArray = [
-      { userID: "3", imageData: { img: base64Grandma, votes: 0 } },
-      {
-        userID: imageobject.userID,
-        imageData: { img: imageobject.img, votes: 0 },
-      },
-    ];
-    setRoomObject((currentObj) => {
-      currentObj.rounds["1"].roundImages = imageArray;
-      return currentObj;
-    });
+  const emitedImageUpload = async (imageobject, callback) => {
+    // const imageArray = [
+    //   {img: base64Grandma, userID: '1'},
+    //   {
+    //     userID: imageobject.userID,
+    //     img: imageobject.img,
+    //   },
+    // ];
+    // setRoomObject((currentObj) => {
+    //   currentObj.rounds["1"].roundImages = imageArray;
+    //   return currentObj;
+    // });
     timeOut(3000);
     callback("file uploaded");
     timeOut(3000);
-    triggerEvent("submissionEnd", imageArray);
+    triggerEvent("startVotes", imageobject);
   };
 
   const emitGetUserId = async (callback) => {
