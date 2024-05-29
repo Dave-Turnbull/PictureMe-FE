@@ -96,7 +96,7 @@ export const Socket = () => {
   };
 
   const emitedStartGame = async () => {
-    console.log("starting game on...", roomObject.roomID);
+    console.log("starting game on...", roomObject.roomID: string);
     await timeOut(2000);
     triggerEvent("startRound", gameRule);
   };
@@ -106,8 +106,7 @@ export const Socket = () => {
     callback("file uploaded");
     timeOut(3000);
     console.log(imageobject, 'the image object in backend')
-    const newImageObject = {img: imageobject.img.uri, userID: imageobject.userID}
-    triggerEvent("startVotes", newImageObject);
+    triggerEvent("startVotes", imageobject);
   };
 
   const emitGetUserId = async (callback) => {

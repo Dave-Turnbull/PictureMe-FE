@@ -12,8 +12,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 
-const TakeAPicture = ({route, navigation}) => {
-  const {gamerule} = route.params;
+const TakeAPicture = ({ route, navigation }) => {
+  const { gamerule } = route.params;
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
@@ -28,19 +28,23 @@ const TakeAPicture = ({route, navigation}) => {
     width: number;
   }
   const SubmitPhoto = async () => {
-    const imageObject = { userID: userData.user.id, img: photo };
-    await new Promise((resolve) => {
+    console.log(photo, "the photo data");
+    console.log(photo);
+
+    const imageObject = { userID: userData.user.id, img: photo.uri };
+    const uploadedMessage = await new Promise((resolve) => {
       socket.emit("imageUpload", imageObject, (message) => {
         resolve(message);
       });
     });
+    console.log(uploadedMessage);
   };
 
   useEffect(() => {
     const eventStartVoting = (imageObject) => {
-      navigation.navigate("GuessThePicture", {imageObject})
-    }
-    socket.on('startVotes', eventStartVoting)
+      navigation.navigate("GuessThePicture", { imageObject });
+    };
+    socket.on("startVotes", eventStartVoting);
     return () => {
       socket.off("startVotes", eventStartVoting);
     };

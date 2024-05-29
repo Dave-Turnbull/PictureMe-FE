@@ -30,8 +30,8 @@ export const GuessThePicture = ({ route, navigation }) => {
     };
   }, []);
 
-  const submitGuess = () => {
-    let score = totalScore;
+  const submitGuess = async () => {
+    let score = 0;
 
     if (chosenUserID === picture.userID) {
       console.log("correct!");
@@ -39,11 +39,16 @@ export const GuessThePicture = ({ route, navigation }) => {
     } else {
       console.log("wrong!");
     }
-    setTotalScore(score);
-    socket.emit("userVote", {
-      userScore: { userID: userData.user.id, score: score },
-      imgTakerID: chosenUserID,
-    });
+    setTotalScore(curr => curr+score);
+    const resMessage = await new Promise((resolve) => {
+      socket.emit("userVote", {
+        voteData: { userID: userData.user.id, score: score },
+        imgUserID: picture.userID,
+      }, (response) => {
+        resolve(response)
+      });
+    })
+    console.log(resMessage)
   };
 
   return (
