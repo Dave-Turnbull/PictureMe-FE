@@ -41,12 +41,12 @@ export const Socket = () => {
 
   //====CLIENT EVENT FUNCTIONS BEHAVIOUR=====
   //these are triggered with socket.emit using the switch statement above
-  const emittedHostRoom = async (username, callback) => {
-    setSavedUsername(username);
+  const emittedHostRoom = async (userobj, callback) => {
+    setSavedUsername(userobj.username);
     const newRoomObject = {
       roomID: "mockRoomID",
-      host: { userID: userID, username: username },
-      users: [{ userID: userID, username: username }],
+      host: { userID: userID, username: userobj.username },
+      users: [{ userID: userID, username: userobj.username }],
     };
     setRoomObject(newRoomObject);
     await timeOut();
@@ -60,10 +60,10 @@ export const Socket = () => {
     eventUsersJoining(newRoomObject);
   };
 
-  const emmittedJoinRoom = async (username, roomID, callback) => {
-    setSavedUsername(username);
+  const emmittedJoinRoom = async (sendobj, callback) => {
+    setSavedUsername(sendobj.user.username);
     const newRoomObject = {
-      roomID,
+      roomID: sendobj.roomID,
       host: { username: "Emil", userID: "1" },
       users: [
         { username: "Emil", userID: "1" },
@@ -71,7 +71,7 @@ export const Socket = () => {
         { username: "Dave", userID: "3" },
         { username: "Jake", userID: "4" },
         { username: "Paul", userID: "15" },
-        { userID, username: username },
+        { userID: sendobj.user.userID, username: sendobj.user.username },
       ],
     };
     setRoomObject(newRoomObject);
@@ -92,14 +92,13 @@ export const Socket = () => {
       };
       return currentObj;
     });
-    triggerEvent("startGame", gameRule); //this isnt in the backend yet
+    triggerEvent("startRound", gameRule);
   };
 
-  const emitedStartGame = async (roomID, callback) => {
-    console.log("starting game on...", roomID);
+  const emitedStartGame = async () => {
+    console.log("starting game on...", roomObject.roomID);
     await timeOut(2000);
-    callback("game started", gameRule);
-    triggerEvent("startGame", gameRule);
+    triggerEvent("startRound", gameRule);
   };
 
   const emitedImageUpload = async (imageobject, callback) => {
@@ -119,7 +118,12 @@ export const Socket = () => {
   const emitUserVote = async (userScore, imageTakerID) => {
     await timeOut(2000)
     if (alreadyVotedOnce) {
-      triggerEvent("endRound", [ { userID: 'userID', username: 'user1', score: 0 }, { userID: 'userID', username: 'user2', score: 2}]);
+      triggerEvent("endRound", [
+        { username: "Emil", userID: "1", score: 300 },
+        { username: "Ian", userID: "2", score: 1300 },
+        { username: "Dave", userID: "3", score: 0 },
+        { username: "Jake", userID: "4", score: 900 },
+        { username: "Paul", userID: "15", score: 5 },]);
     }
     setAlreadyVotedOnce(true)
     triggerEvent("nextImage", {img: base64Grandma, userID: '1'});
@@ -174,27 +178,27 @@ export const Socket = () => {
     setRoomObject(newRoomObject);
 
     newRoomObject.users.push({ username: "Emil", userID: "1" });
-    triggerEvent("updateUsersArray", newRoomObject.users);
+    triggerEvent("updateUsersArray", newRoomObject);
     setRoomObject(newRoomObject);
 
     await timeOut(500);
     newRoomObject.users.push({ username: "Ian", userID: "2" });
-    triggerEvent("updateUsersArray", newRoomObject.users);
+    triggerEvent("updateUsersArray", newRoomObject);
     setRoomObject(newRoomObject);
 
     await timeOut(1500);
     newRoomObject.users.push({ username: "Dave", userID: "3" });
-    triggerEvent("updateUsersArray", newRoomObject.users);
+    triggerEvent("updateUsersArray", newRoomObject);
     setRoomObject(newRoomObject);
 
     await timeOut(1000);
     newRoomObject.users.push({ username: "Jake", userID: "4" });
-    triggerEvent("updateUsersArray", newRoomObject.users);
+    triggerEvent("updateUsersArray", newRoomObject);
     setRoomObject(newRoomObject);
 
     await timeOut(200);
     newRoomObject.users.push({ username: "Paul", userID: "5" });
-    triggerEvent("updateUsersArray", newRoomObject.users);
+    triggerEvent("updateUsersArray", newRoomObject);
     setRoomObject(newRoomObject);
   };
 
