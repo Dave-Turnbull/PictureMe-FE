@@ -50,6 +50,7 @@ export const UserProvider = ({ children }) => {
       }
     };
     socket.on('connect', getUserId)
+    return () => socket.off('connect', getUserId)
   }, []);
 
   return (
