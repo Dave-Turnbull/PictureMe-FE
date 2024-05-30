@@ -22,8 +22,23 @@ const UserList = ({ route }) => {
       })
     };
     socket.on("updateUsersArray", userJoinedEvent);
+
+    const fetchRoom = async () => {
+      const fetchedRoom = new Promise((resolve) => {
+        socket.emit('getRoom', userData.room.roomID, (response) => {
+          setUserData((current) => {
+            current.room = response
+            return current
+          })
+          resolve
+        })
+      })
+    }
+    const fetchRoomInterval = setInterval((fetchRoom), 2000)
+
     return () => {
       socket.off("updateUsersArray", userJoinedEvent);
+      clearInterval(fetchRoomInterval)
     };
   }, []);
 
