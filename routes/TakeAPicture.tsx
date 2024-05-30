@@ -94,8 +94,8 @@ const TakeAPicture = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
-        <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
