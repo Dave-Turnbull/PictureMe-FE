@@ -11,6 +11,7 @@ import { CameraView, useCameraPermissions, CameraType } from "expo-camera";
 import React, { useState, useRef, useEffect } from "react";
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
+import { Base64 } from 'js-base64';
 
 const TakeAPicture = ({ route, navigation }) => {
   const { gamerule } = route.params;
@@ -31,7 +32,19 @@ const TakeAPicture = ({ route, navigation }) => {
     console.log(photo, "the photo data");
     console.log(userData, "userData");
 
-    const imageObject = { userID: userData.user.id, img: photo.base64 };
+    let photoBase64 = photo.base64;
+    if (!/^data:image\/jpeg;base64,/.test(photoBase64)) {
+      photoBase64 = 'data:image/jpeg;base64,' + photoBase64
+      // try {
+      //   photoBase64 = Base64.encodeURI(photo.uri);
+      // } catch (error) {
+      //   console.log("error when converting image to base64", error);
+      // }
+      // console.log(photoBase64, "converted");
+    }
+    console.log(photoBase64, "after if statement");
+    
+    const imageObject = { userID: userData.user.id, img: photoBase64 };
     const uploadedMessage = await new Promise((resolve) => {
       socket.emit("imageUpload", imageObject, (message) => {
         resolve(message);
@@ -100,7 +113,7 @@ const TakeAPicture = ({ route, navigation }) => {
             onPress={() => {
               if (cameraRef) {
                 cameraRef.current
-                  .takePictureAsync()
+                  .takePictureAsync({base64: true, quality: 0.2, scale: 0.1, ImageType: 'jpg'})
                   .then((data: ImageData) => {
                     setPhoto(data);
                   })
