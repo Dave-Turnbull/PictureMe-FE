@@ -23,24 +23,25 @@ const UserList = ({ route }) => {
     };
     socket.on("updateUsersArray", userJoinedEvent);
 
-    const fetchRoom = async () => {
-      const fetchedRoom = new Promise((resolve) => {
-        socket.emit('getRoom', userData.room.roomID, (response) => {
-          setUserData((current) => {
-            current.room = response
-            return current
-          })
-          resolve
-        })
-      })
-    }
-    const fetchRoomInterval = setInterval((fetchRoom), 2000)
-
     return () => {
       socket.off("updateUsersArray", userJoinedEvent);
-      clearInterval(fetchRoomInterval)
     };
   }, []);
+
+  const fetchRoom = async () => {
+    const fetchedRoom = new Promise((resolve) => {
+      socket.emit('getRoom', userData.room.roomID, (response) => {
+        setUserArray(curr => {
+          return [...response.users]
+        });
+        setUserData((current) => {
+          current.room = response
+          return current
+        })
+        resolve
+      })
+    })
+  }
 
   const deleteUser = (index) => {
     if (!isHost) return;
@@ -51,6 +52,7 @@ const UserList = ({ route }) => {
   };
 
   return (
+    <>
     <View style={styles.container}>
     <Card style={styles.usercard}>
       {userData.room.users.map((user, index) => {
@@ -75,6 +77,8 @@ const UserList = ({ route }) => {
       })}
     </Card>
     </View>
+    <IconButton icon={'refresh'} onPress={fetchRoom}/>
+    </>
   );
 };
 
