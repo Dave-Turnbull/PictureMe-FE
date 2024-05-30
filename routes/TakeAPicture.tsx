@@ -95,8 +95,8 @@ const TakeAPicture = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+    <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
-      <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -118,10 +118,10 @@ const TakeAPicture = ({ route, navigation }) => {
               }
             }}
           >
-            <Icon source='camera' size={20}/>
+            <Icon source='camera' size={50} color={'white'}/>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Icon source='camera-flip' size={20}/>
+            <Icon source='camera-flip' size={50} color={'white'}/>
           </TouchableOpacity>
         </View>
       </CameraView>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   promptString: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 'auto',
