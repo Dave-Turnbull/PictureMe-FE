@@ -32,7 +32,7 @@ export const GuessThePicture = ({ route, navigation }) => {
 
   const submitGuess = async () => {
     let score = 0;
-
+    console.log(chosenUserID, 'chosen user id', picture.userID, 'picture.userID')
     if (chosenUserID === picture.userID) {
       console.log("correct!");
       score++;
@@ -61,8 +61,8 @@ export const GuessThePicture = ({ route, navigation }) => {
       {userData.room.users.map((itUser) => {
         if (itUser.userID !== userData.user.userID) {
           return (
-            <View key={itUser.id}>
-              <Button onPress={() => setChosenUserID(itUser)}>
+            <View key={itUser.userID}>
+              <Button onPress={() => setChosenUserID(itUser.userID)}>
                 {itUser.username}
               </Button>
             </View>
