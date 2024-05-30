@@ -35,10 +35,9 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const getUserId = async () => {
-      if (socket.connected) {
         const userID = await new Promise((resolve) => {
-          socket.emit("getUserId", (userID) => {
-            console.log(userID);
+          socket.emit("getUserID", (userID) => {
+            console.log(userID), 'the user id';
             resolve(userID);
           });
         });
@@ -47,7 +46,6 @@ export const UserProvider = ({ children }) => {
           current.user.id = userID;
           return current;
         });
-      }
     };
     socket.on('connect', getUserId)
     return () => socket.off('connect', getUserId)
