@@ -37,7 +37,8 @@ const UserList = ({ route }) => {
   };
 
   return (
-    <Card style={styles.container}>
+    <View style={styles.container}>
+    <Card style={styles.usercard}>
       {userData.room.users.map((user, index) => {
         let kickButtonAttributes = {}
         if (isHost && index!==0){
@@ -51,7 +52,7 @@ const UserList = ({ route }) => {
         return (
           <Chip
             key={user.userID}
-            style={styles.usercard}
+            style={styles.chip}
             {...kickButtonAttributes}
           >
             {user.username} has joined
@@ -59,6 +60,7 @@ const UserList = ({ route }) => {
         );
       })}
     </Card>
+    </View>
   );
 };
 
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#EAFDED',
     alignItems: "center",
     justifyContent: "center",
     margin: 5,
@@ -75,9 +77,16 @@ const styles = StyleSheet.create({
 
   usercard: {
     margin: 5,
-    minWidth: 200
-    // padding: 5,
+    minWidth: 200,
   },
+  chip: {
+    margin: 5,
+    textAlign: "center",
+    padding: 7,
+    minWidth: 200,
+    
+    // justifyContent: "center",
+  }
 });
 
 export default UserList;

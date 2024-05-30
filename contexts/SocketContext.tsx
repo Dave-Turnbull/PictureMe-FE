@@ -1,11 +1,25 @@
-import {Socket, SocketContextType} from "../test/socketEmulation";
-import React, { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
+import {io} from 'socket.io-client'
 
-const SocketContext = createContext<SocketContextType>({on: () => {}, emit: () => {}, off: () => {}});
-  
+interface socketObject {
+    on: (a:string, ...args:any[]) => void;//employers please look away
+    off: (a:string, ...args:any[]) => void;
+    emit: (a:string, ...args:any[]) => void;
+    userID: string;
+}
+
+const SocketContext = createContext<socketObject>({on: null, off: null, emit: null});//server intergrated
+
 export const SocketProvider = ({ children }) => {
+    let socket:socketObject = io("https://pictureme-be.onrender.com");//server intergrated
+    useEffect(() => {
+        socket.on('connect', () => {
+            console.log('connected')
+        })
+    }, [])
+    console.log(socket, 'the socket connection')
 
-    const socket = Socket()
+
     return (
         <SocketContext.Provider value={socket}>
         {children}

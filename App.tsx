@@ -85,24 +85,38 @@ export default function App() {
                 <Stack.Screen
                   name="Landing"
                   component={Landing}
-                  options={{
-                    title: "Welcome to PictureMe!",
-                    headerTitleAlign: 'center',
-                    headerStyle: {
-                      backgroundColor: "black",
-                    },
-                    headerTitleStyle: { color: "white", fontFamily: 'Salsa-Regular',fontWeight: "bold" },
-                  }}
+                  options={{ headerShown: false }}
                 />
-                <Stack.Screen name="JoinGame" component={JoinGame} />
-                <Stack.Screen name="WaitingRoom" component={WaitingRoom} />
-                <Stack.Screen name="TakeAPicture" component={TakeAPicture} />
+                <Stack.Screen
+                  name="JoinGame"
+                  component={JoinGame}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="WaitingRoom"
+                  component={WaitingRoom}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TakeAPicture"
+                  component={TakeAPicture}
+                  options={{ headerShown: false }}
+                />
                 <Stack.Screen
                   name="GuessThePicture"
                   component={GuessThePicture}
+                  options={{ headerShown: false }}
                 />
-                <Stack.Screen name="HowTo" component={HowTo} />
-                <Stack.Screen name="ScoresPage" component={ScoresPage} />
+                <Stack.Screen
+                  name="HowTo"
+                  component={HowTo}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="ScoresPage"
+                  component={ScoresPage}
+                  options={{ headerShown: false }}
+                />
               </Stack.Navigator>
             </NavigationContainer>
           </UserProvider>

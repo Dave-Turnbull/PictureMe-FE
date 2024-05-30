@@ -11,7 +11,7 @@ import { CameraView, useCameraPermissions, CameraType } from "expo-camera";
 import React, { useState, useRef, useEffect } from "react";
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
-import { Base64 } from 'js-base64';
+import StyledButton from "../components/StyledButton";
 
 const TakeAPicture = ({ route, navigation }) => {
   const { gamerule } = route.params;
@@ -33,8 +33,8 @@ const TakeAPicture = ({ route, navigation }) => {
     console.log(userData, "userData");
 
     let photoBase64 = photo.base64;
-    if (!/^data:image\/jpeg;base64,/.test(photoBase64)) {
-      photoBase64 = 'data:image/jpeg;base64,' + photoBase64
+    if (!/^data:image\//.test(photoBase64)) {
+      photoBase64 = "data:image/jpeg;base64," + photoBase64;
       // try {
       //   photoBase64 = Base64.encodeURI(photo.uri);
       // } catch (error) {
@@ -43,7 +43,7 @@ const TakeAPicture = ({ route, navigation }) => {
       // console.log(photoBase64, "converted");
     }
     console.log(photoBase64, "after if statement");
-    
+
     const imageObject = { userID: userData.user.id, img: photoBase64 };
     const uploadedMessage = await new Promise((resolve) => {
       socket.emit("imageUpload", imageObject, (message) => {
@@ -83,7 +83,7 @@ const TakeAPicture = ({ route, navigation }) => {
         <Text style={{ textAlign: "center" }}>
           We need your permission to show the camera
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <StyledButton onPress={requestPermission} title="grant permission">Grant Permissions</StyledButton>
       </View>
     );
   }
@@ -97,8 +97,10 @@ const TakeAPicture = ({ route, navigation }) => {
         <View>
           <Image style={styles.takenImage} source={{ uri: photo.uri }} />
         </View>
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
-        <Button title="Submit" onPress={SubmitPhoto} />
+        <View style={styles.buttonWrapper}>
+        <StyledButton onPress={() => setPhoto(undefined)} >Discard</StyledButton>
+        <StyledButton onPress={SubmitPhoto} >Submit</StyledButton>
+        </View>
       </SafeAreaView>
     );
   }
@@ -113,7 +115,12 @@ const TakeAPicture = ({ route, navigation }) => {
             onPress={() => {
               if (cameraRef) {
                 cameraRef.current
-                  .takePictureAsync({base64: true, quality: 0.2, scale: 0.1, ImageType: 'jpg'})
+                  .takePictureAsync({
+                    base64: true,
+                    quality: 0.2,
+                    scale: 0.5,
+                    ImageType: "jpg",
+                  })
                   .then((data: ImageData) => {
                     setPhoto(data);
                   })
@@ -139,6 +146,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#EAFDED",
   },
   camera: {
     flex: 1,
@@ -160,15 +168,37 @@ const styles = StyleSheet.create({
     color: "white",
   },
   takenImage: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
     margin: "auto",
+    marginTop: 50,
+    marginBottom: 50,
+    borderWidth: 10,
+    borderColor: "grey",
+    backgroundColor: "green",
+    shadowColor: "#000",
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+    transform: [{ rotate: "5deg" }],
+  },
+  buttonWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   promptString: {
     fontSize: 24,
     fontWeight: "bold",
     color: "white",
-    margin: 50,
-    textAlign: "center",
-  },
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 200,
+    marginHorizontal: 'auto',
+    marginVertical: 20,
+  }
 });
