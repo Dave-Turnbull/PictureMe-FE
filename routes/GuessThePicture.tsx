@@ -9,15 +9,17 @@ export const GuessThePicture = ({ route, navigation }) => {
   const [chosenUserID, setChosenUserID] = useState("");
   const [picture, setPicture] = useState<object>(imageObject);
   const [totalScore, setTotalScore] = useState(0);
+  const [hasSubmitted, setHasSubmitted] = useState(false)
   const socket = useSocket();
   const { userData } = useUserData();
 
   useEffect(() => {
     const nextRoundEvent = (response) => {
-      setPicture(response); //according to socEmu,this may need changing when backend is updated
+      setPicture(response);
       setChosenUserID("");
+      setHasSubmitted(false)
     };
-    socket.on("nextImage", nextRoundEvent); //updateRound may need to change, too
+    socket.on("nextImage", nextRoundEvent);
 
     const endGameEvent = (response) => {
       const scores = response;
@@ -31,6 +33,7 @@ export const GuessThePicture = ({ route, navigation }) => {
   }, []);
 
   const submitGuess = async () => {
+    setHasSubmitted(true)
     let score = 0;
     if (chosenUserID === picture.userID) {
       console.log("correct!");
@@ -69,7 +72,7 @@ export const GuessThePicture = ({ route, navigation }) => {
       })}
       </Card>
 
-      <Button onPress={submitGuess}>Submit</Button>
+      <Button disabled={hasSubmitted} onPress={submitGuess}>Submit</Button>
     </View>
   );
 };

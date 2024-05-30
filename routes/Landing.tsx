@@ -12,6 +12,7 @@ const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
+  const [isEmptyUsername, setIsEmptyUsername] = useState(false)
   const theme = useTheme()
   const socket = useSocket()
   const { userData, setUserData } = useUserData()
@@ -21,6 +22,10 @@ const joinGame = ()=>{
 }
 
 const createGame = async ()=>{
+  if(username.length < 1) {
+    setIsEmptyUsername(true)
+    return
+  }
   setIsLoading(true)
   await new Promise ((resolve) => {
       setTimeout(resolve, 1000);
@@ -51,7 +56,11 @@ const hideModal = () => setShowModal(false);
     <View style={styles.container}>
     <View style={styles.uiContainer}>
     <Image source={frontPagePolaroid} style={styles.image}/>
-      <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => setUsername(username)} />
+      <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => {
+        setUsername(username)
+        setIsEmptyUsername(false)
+        }} />
+      {isEmptyUsername && <Text>Add a username!</Text>}
         <View style={styles.buttonWrapper}>
         <StyledButton disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
         <StyledButton disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>

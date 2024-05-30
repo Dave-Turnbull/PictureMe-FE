@@ -18,6 +18,7 @@ const TakeAPicture = ({ route, navigation }) => {
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [photo, setPhoto] = useState<ImageData | null>();
+  const [hasSubmitted, setHasSubmitted] = useState(false)
   const cameraRef = useRef<any>(null);
   const socket = useSocket();
   const { userData } = useUserData();
@@ -28,6 +29,7 @@ const TakeAPicture = ({ route, navigation }) => {
     width: number;
   }
   const SubmitPhoto = async () => {
+    setHasSubmitted(true)
     let photoBase64 = photo.base64;
     if (!/^data:image\//.test(photoBase64)) {
       photoBase64 = "data:image/jpeg;base64," + photoBase64;
@@ -84,7 +86,7 @@ const TakeAPicture = ({ route, navigation }) => {
         </View>
         <View style={styles.buttonWrapper}>
         <StyledButton onPress={() => setPhoto(undefined)} >Discard</StyledButton>
-        <StyledButton onPress={SubmitPhoto} >Submit</StyledButton>
+        <StyledButton disabled={hasSubmitted} onPress={SubmitPhoto} >Submit</StyledButton>
         </View>
       </SafeAreaView>
     );
