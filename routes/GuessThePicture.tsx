@@ -57,7 +57,7 @@ export const GuessThePicture = ({ route, navigation }) => {
       {userData.room.users.map((itUser) => {
         if (itUser.userID !== userData.user.userID) {
           return (
-            <View key={itUser.id}>
+            <View key={itUser.userID}>
               <Button onPress={() => setChosenUserID(itUser.userID)}>
                 {itUser.username}
               </Button>

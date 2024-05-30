@@ -29,9 +29,9 @@ const TakeAPicture = ({ route, navigation }) => {
   }
   const SubmitPhoto = async () => {
     console.log(photo, "the photo data");
-    console.log(photo);
+    console.log(userData, "userData");
 
-    const imageObject = { userID: userData.user.id, img: photo.uri };
+    const imageObject = { userID: userData.user.id, img: photo.base64 };
     const uploadedMessage = await new Promise((resolve) => {
       socket.emit("imageUpload", imageObject, (message) => {
         resolve(message);
@@ -93,6 +93,7 @@ const TakeAPicture = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+        <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -149,5 +150,12 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     margin: "auto",
+  },
+  promptString: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
+    margin: 50,
+    textAlign: "center",
   },
 });
