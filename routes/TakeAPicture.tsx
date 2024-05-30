@@ -12,6 +12,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 import StyledButton from "../components/StyledButton";
+import { Icon, IconButton } from "react-native-paper";
 
 const TakeAPicture = ({ route, navigation }) => {
   const { gamerule } = route.params;
@@ -94,8 +95,8 @@ const TakeAPicture = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+      <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -117,10 +118,10 @@ const TakeAPicture = ({ route, navigation }) => {
               }
             }}
           >
-            <Text style={styles.text}>Take a Pic</Text>
+            <Icon source='camera' size={20}/>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
+            <Icon source='camera-flip' size={20}/>
           </TouchableOpacity>
         </View>
       </CameraView>
@@ -184,8 +185,11 @@ const styles = StyleSheet.create({
     color: "white",
     alignItems: "center",
     justifyContent: "center",
-    minWidth: 200,
     marginHorizontal: 'auto',
     marginVertical: 20,
+    shadowColor: '#000000',
+    shadowOffset: {width: 10, height: 10},
+    shadowRadius: 5,
+    textAlign: 'center'
   }
 });
