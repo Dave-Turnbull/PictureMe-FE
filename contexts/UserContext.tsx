@@ -37,11 +37,9 @@ export const UserProvider = ({ children }) => {
     const getUserId = async () => {
         const userID = await new Promise((resolve) => {
           socket.emit("getUserID", (userID) => {
-            console.log(userID), 'the user id';
             resolve(userID);
           });
         });
-        console.log(userID, "the user ID");
         setUserData((current) => {
           current.user.id = userID;
           return current;

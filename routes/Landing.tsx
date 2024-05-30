@@ -15,7 +15,6 @@ const Landing = ({ navigation }) => {
   const theme = useTheme()
   const socket = useSocket()
   const { userData, setUserData } = useUserData()
-  console.log(socket)
 
 const joinGame = ()=>{
   navigation.navigate('JoinGame', {username: username})

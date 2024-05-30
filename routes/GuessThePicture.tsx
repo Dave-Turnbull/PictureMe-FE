@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { Text, Button, Card } from "react-native-paper";
+import { Text, Button, Card, Chip } from "react-native-paper";
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 
@@ -32,7 +32,6 @@ export const GuessThePicture = ({ route, navigation }) => {
 
   const submitGuess = async () => {
     let score = 0;
-    console.log(chosenUserID, 'chosen user id', picture.userID, 'picture.userID')
     if (chosenUserID === picture.userID) {
       console.log("correct!");
       score++;
@@ -52,23 +51,23 @@ export const GuessThePicture = ({ route, navigation }) => {
         }
       );
     });
-    console.log(resMessage);
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Image style={styles.takenImage} source={{ uri: picture.img }} />
+
+      <Card style={styles.usercard}>
       {userData.room.users.map((itUser) => {
         if (itUser.userID !== userData.user.userID) {
           return (
-            <View key={itUser.userID}>
-              <Button onPress={() => setChosenUserID(itUser.userID)}>
-                {itUser.username}
-              </Button>
-            </View>
+            <Chip style={styles.chip} onPress={() => setChosenUserID(itUser.userID)}>
+              {itUser.username}
+            </Chip>
           );
         }
       })}
+      </Card>
 
       <Button onPress={submitGuess}>Submit</Button>
     </View>
@@ -76,9 +75,41 @@ export const GuessThePicture = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+  display: "flex",
+  flex: 1,
+  backgroundColor: '#EAFDED',
+  alignItems: "center",
+  justifyContent: "center",
+  margin: 5,
+  padding: 5,
+},
   takenImage: {
-    width: 200,
-    height: 200,
-    margin: "auto",
+    width: 300,
+    height: 300,
+    margin: 'auto',
+    marginTop: 50,
+    marginBottom: 25,
+    borderWidth: 10,
+    borderColor: "grey",
+    backgroundColor: 'green',
+    shadowColor: "#000",
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+    transform: [{rotate: '5deg'}]
   },
+  usercard: {
+    margin: 10,
+    padding: 10,
+  },
+  chip: {
+    margin: 5,
+    textAlign: "center",
+    
+    minWidth: 200,
+    
+    // justifyContent: "center",
+  }
 });

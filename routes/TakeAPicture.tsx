@@ -21,7 +21,6 @@ const TakeAPicture = ({ route, navigation }) => {
   const cameraRef = useRef<any>(null);
   const socket = useSocket();
   const { userData } = useUserData();
-  console.log(userData, "the user data");
 
   interface ImageData {
     height: number;
@@ -29,20 +28,10 @@ const TakeAPicture = ({ route, navigation }) => {
     width: number;
   }
   const SubmitPhoto = async () => {
-    console.log(photo, "the photo data");
-    console.log(userData, "userData");
-
     let photoBase64 = photo.base64;
     if (!/^data:image\//.test(photoBase64)) {
       photoBase64 = "data:image/jpeg;base64," + photoBase64;
-      // try {
-      //   photoBase64 = Base64.encodeURI(photo.uri);
-      // } catch (error) {
-      //   console.log("error when converting image to base64", error);
-      // }
-      // console.log(photoBase64, "converted");
     }
-    console.log(photoBase64, "after if statement");
 
     const imageObject = { userID: userData.user.id, img: photoBase64 };
     const uploadedMessage = await new Promise((resolve) => {
@@ -50,7 +39,6 @@ const TakeAPicture = ({ route, navigation }) => {
         resolve(message);
       });
     });
-    console.log(uploadedMessage);
   };
 
   useEffect(() => {
@@ -89,9 +77,6 @@ const TakeAPicture = ({ route, navigation }) => {
   }
 
   if (photo) {
-    {
-      console.log(photo.uri);
-    }
     return (
       <SafeAreaView style={styles.container}>
         <View>

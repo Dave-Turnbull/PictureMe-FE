@@ -5,7 +5,6 @@ interface socketObject {
     on: (a:string, ...args:any[]) => void;//employers please look away
     off: (a:string, ...args:any[]) => void;
     emit: (a:string, ...args:any[]) => void;
-    userID: string;
 }
 
 const SocketContext = createContext<socketObject>({on: null, off: null, emit: null});//server intergrated
@@ -15,9 +14,9 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         socket.on('connect', () => {
             console.log('connected')
+            console.log(socket, 'the socket connection')
         })
     }, [])
-    console.log(socket, 'the socket connection')
 
 
     return (

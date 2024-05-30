@@ -11,7 +11,7 @@ import StyledButton from "../components/StyledButton";
 // for now, hard-coded user objects:
 
 const WaitingRoom = ({ route, navigation }) => {
-  const { username, usersInRoom, isHost } = route.params;
+  const { isHost } = route.params;
   const socket = useSocket();
   const { userData } = useUserData();
 

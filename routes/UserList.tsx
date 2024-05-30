@@ -13,7 +13,6 @@ const UserList = ({ route }) => {
 
   useEffect(() => {
     const userJoinedEvent = (response) => {
-      console.log("clientside userJoinedEvent triggered", response);
       setUserArray(curr => {
         return [...response.users]
       });
