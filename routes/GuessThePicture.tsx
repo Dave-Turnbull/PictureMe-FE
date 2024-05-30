@@ -39,16 +39,20 @@ export const GuessThePicture = ({ route, navigation }) => {
     } else {
       console.log("wrong!");
     }
-    setTotalScore(curr => curr+score);
+    setTotalScore((curr) => curr + score);
     const resMessage = await new Promise((resolve) => {
-      socket.emit("userVote", {
-        voteData: { userID: userData.user.id, score: score },
-        imgUserID: picture.userID,
-      }, (response) => {
-        resolve(response)
-      });
-    })
-    console.log(resMessage)
+      socket.emit(
+        "userVote",
+        {
+          voteData: { userID: userData.user.id, score: score },
+          imgUserID: picture.userID,
+        },
+        (response) => {
+          resolve(response);
+        }
+      );
+    });
+    console.log(resMessage);
   };
 
   return (

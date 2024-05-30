@@ -96,7 +96,6 @@ export const Socket = () => {
   };
 
   const emitedStartGame = async () => {
-    console.log("starting game on...", roomObject.roomID: string);
     await timeOut(2000);
     triggerEvent("startRound", gameRule);
   };

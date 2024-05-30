@@ -9,21 +9,31 @@ const JoinGame = ({ route, navigation }) => {
   const [text, setText] = useState(username);
   const [roomID, setRoomID] = useState("");
   const socket = useSocket();
-  const {userData, setUserData} = useUserData()
+  const { userData, setUserData } = useUserData();
 
   const toWaitingRoom = async () => {
-    const roomObject: { roomID: string, users: any[] } = await new Promise((resolve) => {
-      socket.emit('joinRoom', {user: {username, userID: userData.user.id}, roomID}, (message, roomObj) => {
-        console.log(roomObj)
-        resolve(roomObj)
-      })
-    })
+    const roomObject: { roomID: string; users: any[] } = await new Promise(
+      (resolve) => {
+        socket.emit(
+          "joinRoom",
+          { user: { username, userID: userData.user.id }, roomID },
+          (message, roomObj) => {
+            console.log(roomObj);
+            resolve(roomObj);
+          }
+        );
+      }
+    );
     setUserData((current) => {
-      current.room = roomObject
-      current.user.username = text
-      return current
-    })
-    navigation.navigate("WaitingRoom", { username: text, roomID, usersInRoom: roomObject.users });
+      current.room = roomObject;
+      current.user.username = text;
+      return current;
+    });
+    navigation.navigate("WaitingRoom", {
+      username: text,
+      roomID,
+      usersInRoom: roomObject.users,
+    });
   };
 
   return (
