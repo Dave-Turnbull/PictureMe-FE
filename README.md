@@ -2,7 +2,9 @@
 
 PictureMe is a native mobile multiplayer game written in React Native using Socket.io to communicate between players.
 
-## The game
+Please see the [PictureMe-BE repo](https://github.com/Dave-Turnbull/PictureMe-BE) for the server.
+
+## The Game
 
 A player can create a game as a host where they are given a room ID, other players can then join that room by copying the room ID into the app.
 
@@ -32,6 +34,6 @@ The test files will emulate async calls to the server with event listeners and e
 
 ## Backend server set up
 
-When setting up your own backend server using the PictureMe-BE repo, you can connect the front end by changing the URL in /contexts/SocketContext.tsx:
+When setting up your own backend server using the [PictureMe-BE repo](https://github.com/Dave-Turnbull/PictureMe-BE), you can connect the front end by changing the URL in /contexts/SocketContext.tsx:
 
 `const socket:socketObject = io("https://the.backend.server.url.com");`
