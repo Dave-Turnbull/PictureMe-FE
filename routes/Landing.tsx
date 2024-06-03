@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
 import StyledTextInput from "../components/StyledTextInput";
@@ -56,7 +56,7 @@ const hideModal = () => setShowModal(false);
     <View style={styles.container}>
     <View style={styles.uiContainer}>
     <Image source={frontPagePolaroid} style={styles.image}/>
-      <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => {
+      <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={(username: SetStateAction<string>) => {
         setUsername(username)
         setIsEmptyUsername(false)
         }} />

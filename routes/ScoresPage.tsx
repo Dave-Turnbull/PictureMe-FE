@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
 
   usercard: {
     margin: 5,
-    minWidth: 200,
+    minWidth: 300,
+    maxWidth: 400,
   },
   chip: {
     margin: 5,

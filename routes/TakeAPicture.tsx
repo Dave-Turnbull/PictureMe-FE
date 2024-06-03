@@ -1,6 +1,6 @@
 import {
   Button,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -28,6 +28,7 @@ const TakeAPicture = ({ route, navigation }) => {
     height: number;
     uri: string;
     width: number;
+    base64:string;
   }
   const SubmitPhoto = async () => {
     setHasSubmitted(true)
@@ -98,7 +99,7 @@ const TakeAPicture = ({ route, navigation }) => {
     <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          <Pressable
             style={styles.button}
             onPress={() => {
               if (cameraRef) {
@@ -119,10 +120,10 @@ const TakeAPicture = ({ route, navigation }) => {
             }}
           >
             <Icon source='camera' size={50} color={'white'}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+          </Pressable>
+          <Pressable style={styles.button} onPress={toggleCameraFacing}>
             <Icon source='camera-flip' size={50} color={'white'}/>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </CameraView>
     </View>

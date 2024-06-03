@@ -64,7 +64,7 @@ export const GuessThePicture = ({ route, navigation }) => {
       {userData.room.users.map((itUser) => {
         if (itUser.userID !== userData.user.userID) {
           return (
-            <Chip style={styles.chip} onPress={() => setChosenUserID(itUser.userID)}>
+            <Chip style={styles.chip} onFocus={()=>{}} onPress={() => setChosenUserID(itUser.userID)}>
               {itUser.username}
             </Chip>
           );
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
-    transform: [{rotate: '5deg'}]
+    transform: [{rotate: '5deg'}],
   },
   usercard: {
     margin: 10,
@@ -110,8 +110,7 @@ const styles = StyleSheet.create({
   chip: {
     margin: 5,
     textAlign: "center",
-    
-    minWidth: 200,
+    minWidth: 300,
     
     // justifyContent: "center",
   }
