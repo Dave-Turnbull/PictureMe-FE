@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Button, Card, Chip } from "react-native-paper";
 import { useUserData } from "../contexts/UserContext";
+import StyledButton from "../components/StyledButton";
 
 const ScoresPage = ({ route, navigation }) => {
   const { scores } = route.params;
@@ -26,7 +27,7 @@ const ScoresPage = ({ route, navigation }) => {
             );
           })}
       </Card>
-      <Button onPress={backToWaitingRoom}>Play Again</Button>
+      <StyledButton onPress={backToWaitingRoom}>Play Again</StyledButton>
     </View>
   );
 };
