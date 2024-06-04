@@ -85,7 +85,7 @@ const TakeAPicture = ({ route, navigation }) => {
     return (
       <View style={styles.container}>
         <View>
-          <Polaroid imageSource={{ uri: photo.uri }} />
+          <Polaroid imageSource={{ uri: photo.uri }} text={`is this okay ${userData.user.username}?`} />
         </View>
         <View style={styles.buttonWrapper}>
         <StyledButton onPress={() => setPhoto(undefined)} >Discard</StyledButton>
@@ -107,9 +107,9 @@ const TakeAPicture = ({ route, navigation }) => {
                 cameraRef.current
                   .takePictureAsync({
                     base64: true,
-                    quality: 0.2,
+                    quality: 0.3,
                     scale: 0.5,
-                    ImageType: "jpg",
+                    ImageType: "jpg"
                   })
                   .then((data: ImageData) => {
                     setPhoto(data);
@@ -139,7 +139,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAFDED",
   },
   camera: {
-    flex: 1,
+    width: 300,
+    height: 300,
+    alignItems: "center"
   },
   buttonContainer: {
     flex: 1,
@@ -151,23 +153,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "flex-end",
     alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-  },
-  takenImage: {
-    width: 300,
-    height: 300,
-    margin: "auto",
-    marginTop: 50,
-    marginBottom: 50,
-    paddingBottom: 100,
-    borderWidth: 10,
-    borderColor: "white",
-    backgroundColor: "green",
-    transform: [{ rotate: "5deg" }],
   },
   buttonWrapper: {
     display: "flex",

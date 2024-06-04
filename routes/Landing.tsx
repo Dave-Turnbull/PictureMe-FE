@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
+    backgroundColor: "pink",
     gap: 5,
     margin: 10,
     alignItems: "center",

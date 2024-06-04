@@ -11,7 +11,7 @@ const Polaroid = ({ children=null, text = '', imageSource, rotate = -5 }) => {
       ]}
       elevation={3}
     >
-      {imageSource && <Image source={imageSource} style={styles.image} />}
+      {imageSource && <Image width={300} height={300} resizeMode="cover" source={imageSource} style={styles.image} />}
       {children}
       {text && <Text style={styles.title}>{text}</Text>}
     </Surface>
@@ -22,32 +22,31 @@ const Polaroid = ({ children=null, text = '', imageSource, rotate = -5 }) => {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        alignContent: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
     },
   imageContainer: {
     display: "flex",
-    marginBottom: 50,
+    marginBottom: 30,
     backgroundColor: "white",
   },
   image: {
     width: 300,
     height: 300,
-    resizeMode: "contain",
     paddingTop: 16,
     paddingRight: 16,
     paddingLeft: 16,
     borderColor: "white",
     borderWidth: 10,
     backgroundColor: "white",
-    shadowColor: "black",
   },
   title: {
     fontFamily: "ReenieBeanie",
     textAlign: "center",
     paddingBottom: 10,
     fontSize: 55,
-  },
+    width: 300
+  }
 });
 
 export default Polaroid;

@@ -61,11 +61,11 @@ export const GuessThePicture = ({ route, navigation }) => {
       <Image style={styles.takenImage} source={{ uri: picture.img }} />
 
       <Card style={styles.usercard}>
-      {userData.room.users.map((itUser) => {
-        if (itUser.userID !== userData.user.userID) {
+      {userData.room.users.map((mappedUser) => {
+        if (mappedUser.userID !== userData.user.userID) {
           return (
-            <Chip style={styles.chip} onFocus={()=>{}} onPress={() => setChosenUserID(itUser.userID)}>
-              {itUser.username}
+            <Chip style={styles.chip} onPress={() => setChosenUserID(mappedUser.userID)}>
+              {mappedUser.username}
             </Chip>
           );
         }
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     margin: 5,
     textAlign: "center",
     minWidth: 300,
-    
-    // justifyContent: "center",
+
   }
 });
