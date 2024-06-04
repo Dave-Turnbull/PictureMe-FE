@@ -1,5 +1,5 @@
 import { SetStateAction, useState } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { ImageBackground, StyleSheet, View, Image } from "react-native";
 import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
@@ -7,6 +7,7 @@ import mascot from "../assets/mascot.png"
 import frontPagePolaroid from "../assets/front-page-polaroid.png"
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
+import backgroundImage from "../assets/wood-board-background.jpg"
 
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -55,7 +56,7 @@ const hideModal = () => setShowModal(false);
   return (
     <View style={styles.container}>
     <View style={styles.uiContainer}>
-    <Image source={frontPagePolaroid} style={styles.image}/>
+    <Image source={mascot} style={styles.image} />
       <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={(username: SetStateAction<string>) => {
         setUsername(username)
         setIsEmptyUsername(false)
@@ -79,9 +80,7 @@ const hideModal = () => setShowModal(false);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
+    flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
     backgroundColor: '#EAFDED'
@@ -89,6 +88,7 @@ const styles = StyleSheet.create({
   uiContainer: {
     marginTop: 0,
     alignItems: 'center',
+    textShadowRadius: 5,
   },
   buttonWrapper: {
     display: "flex",
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   modal: {
     borderRadius: 5,
     margin: 20,
+    display: "flex",
     alignItems: "center",
     backgroundColor: '#fff',
   },
@@ -110,7 +111,14 @@ const styles = StyleSheet.create({
   image: {
     width: 310,
     height: 375,
-    marginBottom: 50
+    marginBottom: 50,
+    resizeMode:"contain",
+    paddingTop: 16,
+    paddingRight: 16,
+    paddingLeft: 16,
+    paddingBottom: 64,
+    backgroundColor: "white",
+    transform: [{ rotate: "5deg" }]
   }
 });
 
