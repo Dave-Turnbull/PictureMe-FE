@@ -60,11 +60,11 @@ const hideModal = () => setShowModal(false);
         setIsEmptyUsername(false)
         }} />
       {isEmptyUsername && <Text>Add a username!</Text>}
-        <View style={styles.buttonWrapper}>
-        <StyledButton disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
-        <StyledButton disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
+        <Surface style={styles.buttonWrapper}>
+        <StyledButton style={styles.button} disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
+        <StyledButton style={styles.button} disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
       <IconButton size={40} icon="help-circle" onPress={HowTo} />
-        </View>
+        </Surface>
         <ActivityIndicator animating={isLoading} />
     <Modal visible={showModal} onDismiss={hideModal} style={styles.modalWrapper} contentContainerStyle={styles.modal}>
     <Text> How to play:</Text>
@@ -92,13 +92,18 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     backgroundColor: "pink",
+    color: "purple",
     gap: 5,
-    margin: 10,
+    margin: 30,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 3,
+    transform:[{rotate: "2deg"}]
+  },
+  button:{
+    backgroundColor: "pink",
   },
   modal: {
-    borderRadius: 5,
     margin: 20,
     display: "flex",
     alignItems: "center",
@@ -106,6 +111,9 @@ const styles = StyleSheet.create({
   },
   modalWrapper: {
     zIndex: 1,
+    display: "flex",
+    flex: 1,
+    backgroundColor: "#fff"
   },
 });
 

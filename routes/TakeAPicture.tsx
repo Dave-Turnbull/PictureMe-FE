@@ -139,9 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAFDED",
   },
   camera: {
-    width: 300,
-    height: 300,
-    alignItems: "center"
+flex:1
   },
   buttonContainer: {
     flex: 1,

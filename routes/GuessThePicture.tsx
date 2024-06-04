@@ -3,9 +3,10 @@ import { StyleSheet, View, Image } from "react-native";
 import { Text, Button, Card, Chip } from "react-native-paper";
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
+import Polaroid from '../components/Polaroid'
 
 export const GuessThePicture = ({ route, navigation }) => {
-  const { imageObject } = route.params;
+  const { imageObject} = route.params;
   const [chosenUserID, setChosenUserID] = useState("");
   const [picture, setPicture] = useState<object>(imageObject);
   const [totalScore, setTotalScore] = useState(0);
@@ -58,8 +59,7 @@ export const GuessThePicture = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.takenImage} source={{ uri: picture.img }} />
-
+    <Polaroid imageSource={{ uri: picture.img }} text="???"/>
       <Card style={styles.usercard}>
       {userData.room.users.map((mappedUser) => {
         if (mappedUser.userID !== userData.user.userID) {
