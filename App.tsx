@@ -16,11 +16,13 @@ import { SocketProvider } from "./contexts/SocketContext";
 import ScoresPage from "./routes/ScoresPage";
 import { UserProvider } from "./contexts/UserContext";
 import {ActivityIndicator} from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const [fontLoaded] = useFonts({
     "Salsa-Regular": require("./assets/fonts/Salsa-Regular.ttf"),
+    "ReenieBeanie": require("./assets/fonts/ReenieBeanie.ttf")
   });
 
   let customFonts = {

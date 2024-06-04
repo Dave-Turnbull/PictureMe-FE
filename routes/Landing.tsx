@@ -1,14 +1,12 @@
 import { SetStateAction, useState } from "react";
-import { ImageBackground, StyleSheet, View, Image } from "react-native";
-import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
+import { StyleSheet, View, Image } from "react-native";
+import { Surface, useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
-import mascot from "../assets/mascot.png"
-import frontPagePolaroid from "../assets/front-page-polaroid.png"
+import Polaroid from "../components/Polaroid"
+import pictureplaceholder from "../assets/polaroid placeholder.png"
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
-import backgroundImage from "../assets/wood-board-background.jpg"
-
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +54,7 @@ const hideModal = () => setShowModal(false);
   return (
     <View style={styles.container}>
     <View style={styles.uiContainer}>
-    <Image source={mascot} style={styles.image} />
+      <Polaroid imageSource={pictureplaceholder} text={'PictureMe!'}/>
       <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={(username: SetStateAction<string>) => {
         setUsername(username)
         setIsEmptyUsername(false)
@@ -108,18 +106,6 @@ const styles = StyleSheet.create({
   modalWrapper: {
     zIndex: 1,
   },
-  image: {
-    width: 310,
-    height: 375,
-    marginBottom: 50,
-    resizeMode:"contain",
-    paddingTop: 16,
-    paddingRight: 16,
-    paddingLeft: 16,
-    paddingBottom: 64,
-    backgroundColor: "white",
-    transform: [{ rotate: "5deg" }]
-  }
 });
 
 export default Landing;

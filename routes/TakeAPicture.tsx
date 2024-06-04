@@ -166,10 +166,6 @@ const styles = StyleSheet.create({
     borderWidth: 10,
     borderColor: "white",
     backgroundColor: "green",
-    shadowColor: "black",
-    shadowOpacity: 1,
-    shadowRadius: 5,
-    elevation: 10,
     transform: [{ rotate: "5deg" }],
   },
   buttonWrapper: {
