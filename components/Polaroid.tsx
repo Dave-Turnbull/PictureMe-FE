@@ -1,8 +1,9 @@
 import { Surface } from "react-native-paper";
-import { StyleSheet, Image, Text } from "react-native";
+import { StyleSheet, Image, Text, View } from "react-native";
 
-const Polaroid = ({ text, imageSource, rotate = -5 }) => {
+const Polaroid = ({ children=null, text = '', imageSource, rotate = -5 }) => {
   return (
+    <View style={styles.container}>
     <Surface
       style={[
         styles.imageContainer,
@@ -11,12 +12,19 @@ const Polaroid = ({ text, imageSource, rotate = -5 }) => {
       elevation={3}
     >
       {imageSource && <Image source={imageSource} style={styles.image} />}
-      <Text style={styles.title}>{text}</Text>
+      {children}
+      {text && <Text style={styles.title}>{text}</Text>}
     </Surface>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
   imageContainer: {
     display: "flex",
     marginBottom: 50,

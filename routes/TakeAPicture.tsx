@@ -13,6 +13,7 @@ import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 import StyledButton from "../components/StyledButton";
 import { Icon, IconButton } from "react-native-paper";
+import Polaroid from "../components/Polaroid"
 
 const TakeAPicture = ({ route, navigation }) => {
   const { gamerule } = route.params;
@@ -82,15 +83,15 @@ const TakeAPicture = ({ route, navigation }) => {
 
   if (photo) {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View>
-          <Image style={styles.takenImage} source={{ uri: photo.uri }} />
+          <Polaroid imageSource={{ uri: photo.uri }} />
         </View>
         <View style={styles.buttonWrapper}>
         <StyledButton onPress={() => setPhoto(undefined)} >Discard</StyledButton>
         <StyledButton disabled={hasSubmitted} onPress={SubmitPhoto} >Submit</StyledButton>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
