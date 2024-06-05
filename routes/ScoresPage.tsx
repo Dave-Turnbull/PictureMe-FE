@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Surface, Text, Button, Card, Chip } from "react-native-paper";
-import { useUserData } from "../contexts/UserContext";
+import { Surface, Text, Card, Chip } from "react-native-paper";
 import StyledButton from "../components/StyledButton";
+import { useSocket } from "../contexts/SocketContext";
 
 const ScoresPage = ({ route, navigation }) => {
   const { scores } = route.params;
-  const [userArray, setUserArray] = useState();
+  const socket = useSocket();
+  const [continueVotes, setContinueVotes] = useState(0);
+  const [finishVotes, setFinishVotes] = useState(0);
 
-  const backToWaitingRoom = () => {
-    navigation.navigate("WaitingRoom");
-  };
+  useEffect(() => {
+    socket.on("userVotedFinish", (msg) => {
+      setfinishVotes((votes) => {
+        votes++;
+      });
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
       <Surface style={styles.title}>
-        <Text >Scores</Text>
+        <Text>Scores</Text>
       </Surface>
       <Card style={styles.usercard}>
         {scores
@@ -30,19 +36,27 @@ const ScoresPage = ({ route, navigation }) => {
             );
           })}
       </Card>
-      <StyledButton onPress={backToWaitingRoom}>Play Again</StyledButton>
+      <Text style={styles.voteText}> Vote to:</Text>
+      <View style={styles.buttonContainer}>
+        <StyledButton onPress={socket.emit("voteContinue")}>
+          Continue Game: {0}
+        </StyledButton>
+        <StyledButton onPress={socket.emit("voteFinish")}>
+          Finish Game: {finishVotes}
+        </StyledButton>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  title:{
+  title: {
     backgroundColor: "lightblue",
     color: "white",
-    fontSize:50,
+    fontSize: 50,
     padding: 20,
-    transform: [{rotate: '5deg'}],
-    margin:30
+    transform: [{ rotate: "5deg" }],
+    margin: 30,
   },
   container: {
     display: "flex",
@@ -53,6 +67,10 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 5,
   },
+  buttonContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
   usercard: {
     margin: 5,
     minWidth: 300,
@@ -60,6 +78,9 @@ const styles = StyleSheet.create({
   },
   chip: {
     margin: 5,
+  },
+  voteText: {
+    padding: 20,
   },
 });
 export default ScoresPage;

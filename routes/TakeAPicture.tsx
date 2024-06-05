@@ -85,7 +85,7 @@ const TakeAPicture = ({ route, navigation }) => {
     return (
       <View style={styles.container}>
         <View>
-          <Polaroid imageSource={{ uri: photo.uri }} text={`is this okay ${userData.user.username}?`} />
+          <Polaroid imageSource={{ uri: photo.uri }} text={`is this okay?`} />
         </View>
         <View style={styles.buttonWrapper}>
         <StyledButton onPress={() => setPhoto(undefined)} >Discard</StyledButton>
