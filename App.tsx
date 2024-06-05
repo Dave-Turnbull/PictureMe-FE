@@ -32,6 +32,7 @@ export default function App() {
     ...DefaultTheme,
     fonts: configureFonts({ config: customFonts }),
   };
+  
   if (!fontLoaded) {
     return <ActivityIndicator animating={true} />;
   } else {
