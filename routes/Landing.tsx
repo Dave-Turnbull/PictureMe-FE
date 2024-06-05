@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
+import { Surface, useTheme, Modal, IconButton, Text, ActivityIndicator } from "react-native-paper";
 import StyledTextInput from "../components/StyledTextInput";
 import StyledButton from "../components/StyledButton"
-import mascot from "../assets/mascot.png"
-import frontPagePolaroid from "../assets/front-page-polaroid.png"
+import Polaroid from "../components/Polaroid"
+import pictureplaceholder from "../assets/polaroid placeholder.png"
 import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
-
 const Landing = ({ navigation }) => {
   const [username, setUsername] = useState("")
   const [showModal, setShowModal] = useState(false);
@@ -55,17 +54,17 @@ const hideModal = () => setShowModal(false);
   return (
     <View style={styles.container}>
     <View style={styles.uiContainer}>
-    <Image source={frontPagePolaroid} style={styles.image}/>
-      <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={username => {
+      <Polaroid imageSource={pictureplaceholder} text={'PictureMe!'}/>
+      <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={(username: SetStateAction<string>) => {
         setUsername(username)
         setIsEmptyUsername(false)
         }} />
       {isEmptyUsername && <Text>Add a username!</Text>}
-        <View style={styles.buttonWrapper}>
-        <StyledButton disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
-        <StyledButton disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
+        <Surface style={styles.buttonWrapper}>
+        <StyledButton style={styles.button} disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
+        <StyledButton style={styles.button} disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
       <IconButton size={40} icon="help-circle" onPress={HowTo} />
-        </View>
+        </Surface>
         <ActivityIndicator animating={isLoading} />
     <Modal visible={showModal} onDismiss={hideModal} style={styles.modalWrapper} contentContainerStyle={styles.modal}>
     <Text> How to play:</Text>
@@ -79,9 +78,7 @@ const hideModal = () => setShowModal(false);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
+    flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
     backgroundColor: '#EAFDED'
@@ -89,29 +86,35 @@ const styles = StyleSheet.create({
   uiContainer: {
     marginTop: 0,
     alignItems: 'center',
+    textShadowRadius: 5,
   },
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
+    backgroundColor: "pink",
+    color: "purple",
     gap: 5,
-    margin: 10,
+    margin: 30,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 3,
+    transform:[{rotate: "2deg"}]
+  },
+  button:{
+    backgroundColor: "pink",
   },
   modal: {
-    borderRadius: 5,
     margin: 20,
+    display: "flex",
     alignItems: "center",
     backgroundColor: '#fff',
   },
   modalWrapper: {
     zIndex: 1,
+    display: "flex",
+    flex: 1,
+    backgroundColor: "#fff"
   },
-  image: {
-    width: 310,
-    height: 375,
-    marginBottom: 50
-  }
 });
 
 export default Landing;

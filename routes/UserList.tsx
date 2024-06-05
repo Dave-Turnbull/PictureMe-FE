@@ -5,9 +5,8 @@ import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 
 const UserList = ({ route }) => {
-  const { usersInRoom } = route.params;
+  const { isHost, usersInRoom } = route.params;
   const [userArray, setUserArray] = useState(usersInRoom);
-  const { isHost } = route.params;
   const socket = useSocket()
   const {userData, setUserData} = useUserData()
 
@@ -17,6 +16,7 @@ const UserList = ({ route }) => {
         return [...response.users]
       });
       setUserData((current) => {
+        console.log(current, "<<this is current")
         current.room = response
         return current
       })

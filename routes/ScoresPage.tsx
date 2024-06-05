@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Text, Button, Card, Chip } from "react-native-paper";
+import { Surface, Text, Button, Card, Chip } from "react-native-paper";
 import { useUserData } from "../contexts/UserContext";
 import StyledButton from "../components/StyledButton";
 
@@ -14,6 +14,9 @@ const ScoresPage = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Surface style={styles.title}>
+        <Text >Scores</Text>
+      </Surface>
       <Card style={styles.usercard}>
         {scores
           .sort((a, b) => {
@@ -33,6 +36,14 @@ const ScoresPage = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  title:{
+    backgroundColor: "lightblue",
+    color: "white",
+    fontSize:50,
+    padding: 20,
+    transform: [{rotate: '5deg'}],
+    margin:30
+  },
   container: {
     display: "flex",
     flex: 1,
@@ -42,10 +53,10 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 5,
   },
-
   usercard: {
     margin: 5,
-    minWidth: 200,
+    minWidth: 300,
+    maxWidth: 400,
   },
   chip: {
     margin: 5,

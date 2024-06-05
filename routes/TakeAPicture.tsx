@@ -1,6 +1,6 @@
 import {
   Button,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -13,6 +13,7 @@ import { useSocket } from "../contexts/SocketContext";
 import { useUserData } from "../contexts/UserContext";
 import StyledButton from "../components/StyledButton";
 import { Icon, IconButton } from "react-native-paper";
+import Polaroid from "../components/Polaroid"
 
 const TakeAPicture = ({ route, navigation }) => {
   const { gamerule } = route.params;
@@ -28,6 +29,7 @@ const TakeAPicture = ({ route, navigation }) => {
     height: number;
     uri: string;
     width: number;
+    base64:string;
   }
   const SubmitPhoto = async () => {
     setHasSubmitted(true)
@@ -81,15 +83,15 @@ const TakeAPicture = ({ route, navigation }) => {
 
   if (photo) {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View>
-          <Image style={styles.takenImage} source={{ uri: photo.uri }} />
+          <Polaroid imageSource={{ uri: photo.uri }} text={`is this okay ${userData.user.username}?`} />
         </View>
         <View style={styles.buttonWrapper}>
         <StyledButton onPress={() => setPhoto(undefined)} >Discard</StyledButton>
         <StyledButton disabled={hasSubmitted} onPress={SubmitPhoto} >Submit</StyledButton>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -98,16 +100,16 @@ const TakeAPicture = ({ route, navigation }) => {
     <Text style={styles.promptString}>Take a picture of {gamerule}.</Text>
       <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          <Pressable
             style={styles.button}
             onPress={() => {
               if (cameraRef) {
                 cameraRef.current
                   .takePictureAsync({
                     base64: true,
-                    quality: 0.2,
+                    quality: 0.3,
                     scale: 0.5,
-                    ImageType: "jpg",
+                    ImageType: "jpg"
                   })
                   .then((data: ImageData) => {
                     setPhoto(data);
@@ -119,10 +121,10 @@ const TakeAPicture = ({ route, navigation }) => {
             }}
           >
             <Icon source='camera' size={50} color={'white'}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+          </Pressable>
+          <Pressable style={styles.button} onPress={toggleCameraFacing}>
             <Icon source='camera-flip' size={50} color={'white'}/>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </CameraView>
     </View>
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAFDED",
   },
   camera: {
-    flex: 1,
+flex:1
   },
   buttonContainer: {
     flex: 1,
@@ -149,27 +151,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "flex-end",
     alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-  },
-  takenImage: {
-    width: 300,
-    height: 300,
-    margin: "auto",
-    marginTop: 50,
-    marginBottom: 50,
-    borderWidth: 10,
-    borderColor: "grey",
-    backgroundColor: "green",
-    shadowColor: "#000",
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 10,
-    transform: [{ rotate: "5deg" }],
   },
   buttonWrapper: {
     display: "flex",
