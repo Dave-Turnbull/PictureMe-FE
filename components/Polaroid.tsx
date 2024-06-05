@@ -3,7 +3,7 @@ import { StyleSheet, Image, Text, View } from "react-native";
 
 const Polaroid = ({ children=null, text = '', imageSource, rotate = -5 }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.polaroidFrame}>
     <Surface
       style={[
         styles.imageContainer,
@@ -13,14 +13,14 @@ const Polaroid = ({ children=null, text = '', imageSource, rotate = -5 }) => {
     >
       {imageSource && <Image width={300} height={300} resizeMode="cover" source={imageSource} style={styles.image} />}
       {children}
-      {text && <Text style={styles.title}>{text}</Text>}
+      {text && <Text style={styles.polaroidTitle}>{text}</Text>}
     </Surface>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    polaroidFrame: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     borderWidth: 10,
     backgroundColor: "white",
   },
-  title: {
+  polaroidTitle: {
     fontFamily: "ReenieBeanie",
     textAlign: "center",
     paddingBottom: 10,

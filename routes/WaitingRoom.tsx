@@ -35,7 +35,7 @@ const WaitingRoom = ({ route, navigation }) => {
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.roomIdContainer}>
         <Text>PictureMe!</Text>
         <Text>Room ID: {userData.room.roomID}</Text>
         {/* requires shareicon from paper */}
@@ -45,7 +45,7 @@ const WaitingRoom = ({ route, navigation }) => {
         <Text>Host: {userData.room.host.username}</Text>
         {isHost && (
           <StyledButton icon="play" onPress={startGame}>
-            Start
+            Start Game
           </StyledButton>
         )}
       </View>
@@ -60,11 +60,11 @@ const WaitingRoom = ({ route, navigation }) => {
 export default WaitingRoom;
 
 const styles = StyleSheet.create({
-  container: {
+  roomIdContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    margin: 5,
+    marginTop: 30,
     padding: 5,
     backgroundColor: '#EAFDED'
   },

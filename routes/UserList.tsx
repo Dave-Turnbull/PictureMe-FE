@@ -67,7 +67,7 @@ const UserList = ({ route }) => {
         }
         return (
           <Chip
-            key={user.userID}
+            key={user.id}
             style={styles.chip}
             {...kickButtonAttributes}
           >

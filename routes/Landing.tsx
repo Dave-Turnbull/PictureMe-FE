@@ -12,7 +12,6 @@ const Landing = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
   const [isEmptyUsername, setIsEmptyUsername] = useState(false)
-  const theme = useTheme()
   const socket = useSocket()
   const { userData, setUserData } = useUserData()
 
@@ -52,18 +51,17 @@ const HowTo = () => {
 const hideModal = () => setShowModal(false);
 
   return (
-    <View style={styles.container}>
-    <View style={styles.uiContainer}>
+    <View style={styles.appContainer}>
       <Polaroid imageSource={pictureplaceholder} text={'PictureMe!'}/>
+      <View style={styles.userInput}>
       <StyledTextInput mode="outlined" label="username..." value={username} onChangeText={(username: SetStateAction<string>) => {
         setUsername(username)
         setIsEmptyUsername(false)
-        }} />
+      }} />
       {isEmptyUsername && <Text>Add a username!</Text>}
         <Surface style={styles.buttonWrapper}>
         <StyledButton style={styles.button} disabled={isLoading} mode="contained" onPress={joinGame}>Join</StyledButton>
         <StyledButton style={styles.button} disabled={isLoading} mode="contained" onPress={createGame}>Create</StyledButton>
-      <IconButton size={40} icon="help-circle" onPress={HowTo} />
         </Surface>
         <ActivityIndicator animating={isLoading} />
     <Modal visible={showModal} onDismiss={hideModal} style={styles.modalWrapper} contentContainerStyle={styles.modal}>
@@ -71,49 +69,44 @@ const hideModal = () => setShowModal(false);
       <Text> - Each player will take a picture when given a prompt at the beginning of each round</Text>
       <Text> - Each picture will be displayed and each player will need to guess who's pic is whos, Best guesses only!</Text>
     </Modal>
-    </View>
+      <IconButton size={30} icon="help-circle" onPress={HowTo} />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
     justifyContent: 'center',
+    paddingTop: 50,
     alignContent: 'center',
     backgroundColor: '#EAFDED'
   },
-  uiContainer: {
+  userInput: {
     marginTop: 0,
     alignItems: 'center',
-    textShadowRadius: 5,
   },
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "pink",
-    color: "purple",
-    gap: 5,
+    backgroundColor: "purple",
     margin: 30,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 3,
     transform:[{rotate: "2deg"}]
   },
   button:{
-    backgroundColor: "pink",
+    backgroundColor: "purple",
+    
   },
   modal: {
-    margin: 20,
     display: "flex",
     alignItems: "center",
     backgroundColor: '#fff',
   },
   modalWrapper: {
-    zIndex: 1,
     display: "flex",
-    flex: 1,
-    backgroundColor: "#fff"
   },
 });
 
